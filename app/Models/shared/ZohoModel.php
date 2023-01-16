@@ -10,7 +10,7 @@ abstract class ZohoModel extends ExtendedModel
 
     function __construct()
     {
-        $this->token = \Zoho::generateToken();
+        $this->token = \Zoho::generateAccessToken();
     }
 
     public function getRecords(): array

@@ -13,7 +13,20 @@ class ZohoService
         self::$config = config('zoho');
     }
 
-    public static function generateToken(): string
+    public static function generateRefreshToken(): string
+    {
+        $response = Http::asForm()->post(self::$config["url_token"], [
+            "client_id" => self::$config["client_id"],
+            "client_secret" => self::$config["client_secret"],
+            "redirect_uri" => self::$config["redirect_uri"],
+            "grant_type" => self::$config["grant_type_generate"],
+            "code" => self::$config["grant_token"],
+        ]);
+
+        return json_decode($response->body(), true)["refresh_token"];
+    }
+
+    public static function generateAccessToken(): string
     {
         $response = Http::asForm()->post(self::$config["url_token"], [
             "client_id" => self::$config["client_id"],
