@@ -22,7 +22,6 @@ class ZohoService
             "grant_type" => self::$config["grant_type_generate"],
             "code" => self::$config["grant_token"],
         ]);
-
         return json_decode($response->body(), true)["refresh_token"];
     }
 
@@ -34,16 +33,26 @@ class ZohoService
             "grant_type" => self::$config["grant_type"],
             "refresh_token" => self::$config["refresh_token"],
         ]);
-
         return json_decode($response->body(), true)["access_token"];
     }
 
-    public static function getAllRecords(string $token, string $moduleName): array
-    {
+    public static function getRecords(
+        string $token,
+        string $moduleName,
+        int $page = 1,
+        int $per_page = 10,
+        string $sort_order = "desc",
+        /** ["id", "Created_Time", "Modified_Time"] */
+        string $sort_by = "id",
+    ): array {
         $response = Http::withHeaders([
             'Authorization' => 'Zoho-oauthtoken ' . $token,
-        ])->get(self::$config["url_api"] . $moduleName);
-
+        ])->get(self::$config["url_api"] . $moduleName, [
+            "page" => $page,
+            "per_page" => $per_page,
+            "sort_order" => $sort_order,
+            "sort_by" => $sort_by,
+        ]);
         return json_decode($response->body(), true);
     }
 }

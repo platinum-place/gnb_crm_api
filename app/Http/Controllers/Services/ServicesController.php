@@ -9,6 +9,13 @@ use Illuminate\Http\Request;
 
 class ServicesController extends Controller
 {
+    protected Service $service;
+
+    function __construct()
+    {
+        $this->service = new Service;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +23,7 @@ class ServicesController extends Controller
      */
     public function index(Request $request)
     {
-        $services = new Service;
-        return new ServiceResource($services->getRecords());
+        return new ServiceResource($this->service->getRecords($request->all()));
     }
 
     /**

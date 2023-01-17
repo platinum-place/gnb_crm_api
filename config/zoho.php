@@ -1,13 +1,13 @@
 <?php
 
 return [
-    "url_token" => "https://accounts.zoho.com/oauth/v2/token",
-    "url_api" => "https://www.zohoapis.com/crm/v2/",
-    "redirect_uri" => "https://example.com/",
-    "client_id" => "1000.XXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-    "client_secret" => "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-    "grant_type" => "refresh_token",
-    "grant_type_generate" => "authorization_code",
-    "refresh_token" => "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-    "grant_token" => "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "url_token" => env("URL_TOKEN"),
+    "url_api" => env("URL_API"),
+    "redirect_uri" => env("REDIRECT_URI"),
+    "client_id" => env("CLIENT_ID"),
+    "client_secret" => env("CLIENT_SECRET"),
+    "grant_type" => env("GRANT_TYPE"),
+    "grant_type_generate" => env("GRANT_TYPE_GENERATE"),
+    "refresh_token" => env("REFRESH_TOKEN"),
+    "grant_token" => env("GRANT_TOKEN"),
 ];
