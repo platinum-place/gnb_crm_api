@@ -21,7 +21,7 @@ class CaseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         return new CaseResource($this->service->getRecords($request->all()));
     }
