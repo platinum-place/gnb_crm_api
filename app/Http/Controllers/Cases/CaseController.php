@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Services;
+namespace App\Http\Controllers\Cases;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Services\ServiceResource;
+use App\Http\Resources\Cases\CaseResource;
 use App\Models\Services\Service;
 use Illuminate\Http\Request;
 
-class ServicesController extends Controller
+class CaseController extends Controller
 {
     protected Service $service;
 
@@ -21,9 +21,9 @@ class ServicesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        return new ServiceResource($this->service->allRecords($request->all()));
+        return new CaseResource($this->service->getRecords($request->all()));
     }
 
     /**
