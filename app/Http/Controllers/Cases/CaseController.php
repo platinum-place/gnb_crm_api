@@ -9,12 +9,7 @@ use Illuminate\Http\Request;
 
 class CaseController extends Controller
 {
-    protected Service $service;
-
-    function __construct()
-    {
-        $this->service = new Service;
-    }
+    protected string $moduleName = 'Cases';
 
     /**
      * Display a listing of the resource.
@@ -23,7 +18,7 @@ class CaseController extends Controller
      */
     public function index(Request $request)
     {
-        return new CaseResource($this->service->allRecords($request->all()));
+        return new CaseResource(\Zoho::getRecords($this->moduleName, ...$request->all()));
     }
 
     /**
@@ -44,7 +39,7 @@ class CaseController extends Controller
      */
     public function store(Request $request)
     {
-        return new CaseResource($this->service->createRecord($request->all()));
+        return new CaseResource(\Zoho::create($this->moduleName, $request->all()));
     }
 
     /**
@@ -55,7 +50,7 @@ class CaseController extends Controller
      */
     public function show($id)
     {
-        return new CaseResource($this->service->findRecord($id));
+        return new CaseResource(\Zoho::getRecord($this->moduleName, $id));
     }
 
     /**
