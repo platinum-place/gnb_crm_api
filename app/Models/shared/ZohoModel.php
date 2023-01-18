@@ -17,4 +17,14 @@ abstract class ZohoModel extends ExtendedModel
     {
         return \Zoho::getRecords($this->token, $this->moduleName, ...$params);
     }
+
+    public function findRecord(int $id): array
+    {
+        return \Zoho::getRecord($this->token, $this->moduleName, $id);
+    }
+
+    public function createRecord(array $body): array
+    {
+        return \Zoho::create($this->token, $this->moduleName, $body);
+    }
 }

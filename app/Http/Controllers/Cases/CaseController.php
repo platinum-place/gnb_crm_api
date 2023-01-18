@@ -23,7 +23,7 @@ class CaseController extends Controller
      */
     public function index(Request $request)
     {
-        return new CaseResource($this->service->getRecords($request->all()));
+        return new CaseResource($this->service->allRecords($request->all()));
     }
 
     /**
@@ -44,7 +44,7 @@ class CaseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return new CaseResource($this->service->createRecord($request->all()));
     }
 
     /**
@@ -55,7 +55,7 @@ class CaseController extends Controller
      */
     public function show($id)
     {
-        //
+        return new CaseResource($this->service->findRecord($id));
     }
 
     /**

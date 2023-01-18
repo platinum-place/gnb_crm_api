@@ -36,23 +36,30 @@ class ZohoService
         return json_decode($response->body(), true)["access_token"];
     }
 
-    public static function getRecords(
-        string $token,
-        string $moduleName,
-        int $page = 1,
-        int $per_page = 10,
-        string $sort_order = "desc",
-        /** ["id", "Created_Time", "Modified_Time"] */
-        string $sort_by = "id",
-    ): array {
-        $response = Http::withHeaders([
-            'Authorization' => 'Zoho-oauthtoken ' . $token,
-        ])->get(self::$config["url_api"] . $moduleName, [
+    /** sort_by = ["id", "Created_Time", "Modified_Time"] */
+    public static function getRecords(string $token, string $moduleName, int $page = 1, int $per_page = 10, string $sort_order = "desc", string $sort_by = "id",): array
+    {
+        $response = Http::withHeaders(['Authorization' => 'Zoho-oauthtoken ' . $token])->get(self::$config["url_api"] . $moduleName, [
             "page" => $page,
             "per_page" => $per_page,
             "sort_order" => $sort_order,
             "sort_by" => $sort_by,
         ]);
+        return json_decode($response->body(), true);
+    }
+
+    public static function getRecord(string $token, string $moduleName, string $id): array
+    {
+        $response = Http::withHeaders(['Authorization' => 'Zoho-oauthtoken ' . $token])
+            ->get(self::$config["url_api"] . $moduleName . "/" . $id);
+        return json_decode($response->body(), true);
+    }
+
+    public static function create(string $token, string $moduleName, array $body): array
+    {
+        $response = Http::withHeaders(['Authorization' => 'Zoho-oauthtoken ' . $token])
+            ->asForm()
+            ->post(self::$config["url_api"] . $moduleName, $body);
         return json_decode($response->body(), true);
     }
 }
