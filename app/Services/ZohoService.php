@@ -13,7 +13,6 @@ class ZohoService
     public function __construct()
     {
         self::$config = config('zoho');
-
         self::$token = self::generateAccessToken();
     }
 
@@ -63,7 +62,6 @@ class ZohoService
     public static function create(string $moduleName, array $body): array
     {
         $response = Http::withHeaders(['Authorization' => 'Zoho-oauthtoken ' . self::$token])
-            ->asForm()
             ->post(self::$config["url_api"] . $moduleName, $body);
         return json_decode($response->body(), true);
     }

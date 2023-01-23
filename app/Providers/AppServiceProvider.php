@@ -14,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Zoho', function () {
+        $this->app->bind('zoho', function () {
             return new ZohoService();
         });
     }

@@ -217,7 +217,6 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
-        'Zoho' => App\Facades\ZohoFacade::class,
     ])->toArray(),
 
 ];

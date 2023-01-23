@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Cases;
 
+use App\Facades\Zoho;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Cases\CaseResource;
 use App\Models\Services\Service;
@@ -9,7 +10,7 @@ use Illuminate\Http\Request;
 
 class CaseController extends Controller
 {
-    protected string $moduleName = 'Cases';
+    protected string $zohoModuleName = 'Cases';
 
     /**
      * Display a listing of the resource.
@@ -18,7 +19,7 @@ class CaseController extends Controller
      */
     public function index(Request $request)
     {
-        return new CaseResource(\Zoho::getRecords($this->moduleName, ...$request->all()));
+        return new CaseResource(Zoho::getRecords($this->zohoModuleName, ...$request->all()));
     }
 
     /**
@@ -39,7 +40,7 @@ class CaseController extends Controller
      */
     public function store(Request $request)
     {
-        return new CaseResource(\Zoho::create($this->moduleName, $request->all()));
+        return new CaseResource(Zoho::create($this->zohoModuleName, $request->all()));
     }
 
     /**
@@ -50,7 +51,7 @@ class CaseController extends Controller
      */
     public function show($id)
     {
-        return new CaseResource(\Zoho::getRecord($this->moduleName, $id));
+        return new CaseResource(Zoho::getRecord($this->zohoModuleName, $id));
     }
 
     /**
