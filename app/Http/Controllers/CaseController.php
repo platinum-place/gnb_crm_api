@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\CaseResource;
+use App\Models\CaseZoho;
 use App\Services\ZohoService;
 use Illuminate\Http\Request;
 
@@ -49,7 +50,8 @@ class CaseController extends Controller
      */
     public function show($id)
     {
-        //
+        $case = (new CaseZoho())->find($id);
+        return new CaseResource($case);
     }
 
     /**
