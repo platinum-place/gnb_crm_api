@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\shared;
+namespace App\Models\Api\shared;
 
 abstract class ApiModel
 {
@@ -30,7 +30,6 @@ abstract class ApiModel
 
     public function __set($name, $value)
     {
-        // mutate function
         $this->attributes[$name] = $value;
     }
 

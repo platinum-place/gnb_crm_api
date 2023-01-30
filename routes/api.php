@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\CaseController;
+use App\Http\Controllers\Zoho\CaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

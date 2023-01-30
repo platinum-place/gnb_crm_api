@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Zoho;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\CaseResource;
-use App\Models\CaseZoho;
+use App\Models\Api\Zoho\CaseZoho;
 use App\Services\ZohoService;
 use Illuminate\Http\Request;
 
@@ -51,6 +52,20 @@ class CaseController extends Controller
     public function show($id)
     {
         $case = (new CaseZoho())->find($id);
+
+        if (!$case)
+            return response()->json([
+                'code' => 404,
+                'message' => 'Case not found.',
+            ]);
+
+
+        if ($case->isfinished())
+            return response()->json([
+                'code' => 501,
+                'message' => 'Case finished.',
+            ]);
+
         return new CaseResource($case);
     }
 
