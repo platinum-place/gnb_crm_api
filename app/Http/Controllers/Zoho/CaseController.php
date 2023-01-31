@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Zoho;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CaseResource;
+use App\Http\Requests\Zoho\CaseRequest;
+use App\Http\Resources\Zoho\CaseCollectionResource;
+use App\Http\Resources\Zoho\CaseResource;
 use App\Models\Api\Zoho\CaseZoho;
 use App\Services\ZohoService;
 use Illuminate\Http\Request;
@@ -19,7 +21,8 @@ class CaseController extends Controller
      */
     public function index(Request $request)
     {
-        return new CaseResource((new ZohoService)->getRecords($this->zohoModuleName));
+        $cases = (new CaseZoho())->list($request->all());
+        return CaseCollectionResource::collection($cases);
     }
 
     /**
@@ -38,9 +41,17 @@ class CaseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CaseRequest $request)
     {
-        //
+        $case = (new CaseZoho())->create($request->all());
+
+        if (!$case)
+            return response()->json([
+                'code' => 404,
+                'message' => 'Case could not create.',
+            ]);
+
+        return new CaseResource($case);
     }
 
     /**
@@ -59,10 +70,9 @@ class CaseController extends Controller
                 'message' => 'Case not found.',
             ]);
 
-
         if ($case->isfinished())
             return response()->json([
-                'code' => 501,
+                'code' => 204,
                 'message' => 'Case finished.',
             ]);
 

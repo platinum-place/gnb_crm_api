@@ -3,6 +3,7 @@
 namespace App\Models\Api\Zoho;
 
 use App\Models\Api\shared\ZohoModel;
+use Illuminate\Support\Collection;
 
 class CaseZoho extends ZohoModel
 {
@@ -110,6 +111,24 @@ class CaseZoho extends ZohoModel
         '$approval_state',
     ];
 
+    protected array $mutateable = [
+        "P_liza" => "policy_number",
+        "Chasis" => "chassis",
+        "A_o" => "vehicle_year",
+        "Color" => "vehicle_color",
+        "Marca" => "vehicle_make",
+        "Modelo" => "vehicle_model",
+        "Placa" => "vehicle_plate",
+        "Punto_A" => "site_a",
+        "Punto_B" => "site_b",
+        "Solicitante" => "client_name",
+        "Phone" => "phone",
+        "Plan" => "policy_plan",
+        "Description" => "description",
+        "Ubicaci_n" => "location_url",
+        "Tipo_de_asistencia" => "service"
+    ];
+
     public function isfinished(): bool
     {
         return in_array(
@@ -121,5 +140,27 @@ class CaseZoho extends ZohoModel
                 "Cerrado",
             ]
         );
+    }
+
+    public function create(array $attributes = []): self|null
+    {
+        return parent::create(array_merge(
+            $attributes,
+            [
+                "Status" => "Ubicado",
+                "Caso_especial" => true,
+                "Account_Name" => "3222373000013452591", //from logged user
+                "Aseguradora" => "LA COLONIAL, S.A",
+                "Subject" => "Asistencia Remota",
+                "Related_To" => env("ZOHO_CASE_USER_ID"),
+                "Case_Origin" => "API",
+            ]
+        ));
+    }
+
+    public function list(array $params = [])
+    {
+        $list = parent::list($params);
+        return $list["data"]->mapInto(self::class);
     }
 }

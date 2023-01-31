@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Zoho;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -25,11 +25,12 @@ class CaseResource extends JsonResource
             "vehicle_plate" => $this->Placa,
             "site_a" => $this->Punto_A,
             "site_b" => $this->Punto_B,
-            "client_name" => $this->Asegurado,
+            "client_name" => $this->Solicitante,
             "phone" => $this->Phone,
             "policy_plan" => $this->Plan,
             "description" => $this->Description,
             "location_url" => $this->Ubicaci_n,
+            "service" => $this->Tipo_de_asistencia,
         ];
     }
 }

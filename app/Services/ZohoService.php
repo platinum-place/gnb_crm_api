@@ -40,7 +40,7 @@ class ZohoService extends ApiService
     }
 
     /** sort_by = ["id", "Created_Time", "Modified_Time"] */
-    public function getRecords(string $moduleName, int $page = 1, int $per_page = 10, string $sort_order = "desc", string $sort_by = "id",): array
+    public function getRecords(string $moduleName, int $page = 1, int $per_page = 10, string $sort_order = "desc", string $sort_by = "id"): array
     {
         return $this->getResponseBody(
             $this->config["url_api"] . $moduleName,
@@ -68,9 +68,12 @@ class ZohoService extends ApiService
 
     public function create(string $moduleName, array $body): array
     {
-        return $this->getResponseBody(
+        return $this->getResponseBodyPost(
             $this->config["url_api"] . $moduleName,
-            $body,
+            [
+                "data" => [$body],
+                "trigger" => ["approval", "workflow", "blueprint"],
+            ],
             [
                 'Authorization' => $this->token
             ]
