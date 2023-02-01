@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Systrack\SystrackController;
 use App\Http\Controllers\Zoho\CaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,4 +26,5 @@ Route::middleware([
     /** 'auth:sanctum' */
 ])->group(function () {
     Route::resource('cases', CaseController::class);
+    Route::resource('systrack', SystrackController::class);
 });

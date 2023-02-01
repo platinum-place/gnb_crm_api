@@ -6,14 +6,13 @@ use App\Services\shared\ApiService;
 
 class ZohoService extends ApiService
 {
-    protected array $config = [];
-
-    protected string $token = "";
-
     public function __construct()
     {
         $this->config = config('zoho');
-        $this->token = 'Zoho-oauthtoken ' . $this->generateAccessToken();
+
+        $this->header = [
+            'Authorization' => 'Zoho-oauthtoken ' . $this->generateAccessToken()
+        ];
     }
 
     public function generateRefreshToken(): string
@@ -50,9 +49,7 @@ class ZohoService extends ApiService
                 "sort_order" => $sort_order,
                 "sort_by" => $sort_by,
             ],
-            [
-                'Authorization' => $this->token
-            ]
+            $this->header
         );
     }
 
@@ -60,9 +57,7 @@ class ZohoService extends ApiService
     {
         return $this->getResponseBody(
             $this->config["url_api"] . $moduleName . "/" . $id,
-            header: [
-                'Authorization' => $this->token
-            ]
+            header: $this->header
         );
     }
 
@@ -74,9 +69,7 @@ class ZohoService extends ApiService
                 "data" => [$body],
                 "trigger" => ["approval", "workflow", "blueprint"],
             ],
-            [
-                'Authorization' => $this->token
-            ]
+            $this->header
         );
     }
 }

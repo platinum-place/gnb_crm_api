@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\Http;
 
 abstract class ApiService
 {
+    protected array $config = [];
+
+    protected array $header = [];
+
     protected function getResponsePostBodyAsform(string $url, array $body): array
     {
         $response = Http::asForm()->post($url, $body);
