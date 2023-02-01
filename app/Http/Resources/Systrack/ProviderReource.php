@@ -4,7 +4,7 @@ namespace App\Http\Resources\Systrack;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProviderSystrackReource extends JsonResource
+class ProviderReource extends JsonResource
 {
     /**
      * Transform the resource into an array.
