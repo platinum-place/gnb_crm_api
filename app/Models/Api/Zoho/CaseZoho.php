@@ -147,20 +147,14 @@ class CaseZoho extends ZohoModel
         return parent::create(array_merge(
             $attributes,
             [
-                "Status" => "Ubicado",
+                "Status" => env("ZOHO_START_CASE_STATUS"),
                 "Caso_especial" => true,
                 "Account_Name" => "3222373000013452591", //from logged user
-                "Aseguradora" => "LA COLONIAL, S.A",
-                "Subject" => "Asistencia Remota",
+                "Aseguradora" => "LA COLONIAL, S.A", //from logged user
+                "Subject" => env("ZOHO_CASE_SUBJECT"),
                 "Related_To" => env("ZOHO_CASE_USER_ID"),
                 "Case_Origin" => "API",
             ]
         ));
-    }
-
-    public function list(array $params = [])
-    {
-        $list = parent::list($params);
-        return $list["data"]->mapInto(self::class);
     }
 }

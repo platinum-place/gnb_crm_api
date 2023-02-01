@@ -23,4 +23,9 @@ abstract class ApiService
         $response = Http::withHeaders($header)->post($url, $body);
         return json_decode($response->body(), true);
     }
+
+    protected function arrayListMap(callable $callback, array $list)
+    {
+        return array_map($callback, array_keys($list), array_values($list));
+    }
 }

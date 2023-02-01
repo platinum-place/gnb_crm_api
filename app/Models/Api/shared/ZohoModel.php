@@ -39,9 +39,9 @@ abstract class ZohoModel extends ApiModel
     {
         $response = (new ZohoService)->getRecords($this->moduleName, ...$params);
 
-        if (empty($response["data"]))
+        if (isset($response["status"]) and $response["status"] == "error")
             return null;
-            
-        return ["data" => collect($response["data"]), "info" => $response["info"]];
+
+        return [collect($response["data"])->mapInto(get_called_class()), $response["info"]];
     }
 }

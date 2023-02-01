@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Zoho;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Zoho\CaseRequest;
-use App\Http\Resources\Zoho\CaseCollectionResource;
 use App\Http\Resources\Zoho\CaseResource;
 use App\Models\Api\Zoho\CaseZoho;
-use App\Services\ZohoService;
 use Illuminate\Http\Request;
 
 class CaseController extends Controller
@@ -22,7 +20,7 @@ class CaseController extends Controller
     public function index(Request $request)
     {
         $cases = (new CaseZoho())->list($request->all());
-        return CaseCollectionResource::collection($cases);
+        return CaseResource::collection($cases[0])->additional($cases[1]);
     }
 
     /**

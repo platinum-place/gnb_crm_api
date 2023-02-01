@@ -14,7 +14,6 @@ class CaseResource extends JsonResource
      */
     public function toArray($request)
     {
-        //return parent::toArray($request);
         return [
             "policy_number" => $this->P_liza,
             "chassis" => $this->Chasis,
@@ -32,5 +31,16 @@ class CaseResource extends JsonResource
             "location_url" => $this->Ubicaci_n,
             "service" => $this->Tipo_de_asistencia,
         ];
+    }
+
+    /**
+     * Get additional data that should be returned with the resource array.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function with($request)
+    {
+        return parent::toArray($request);
     }
 }
