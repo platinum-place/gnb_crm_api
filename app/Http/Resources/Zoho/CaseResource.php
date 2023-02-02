@@ -28,19 +28,8 @@ class CaseResource extends JsonResource
             "phone" => $this->Phone,
             "policy_plan" => $this->Plan,
             "description" => $this->Description,
-            "location_url" => $this->Ubicaci_n,
+            "gps_provider" => $this->providerLocation,
             "service" => $this->Tipo_de_asistencia,
         ];
-    }
-
-    /**
-     * Get additional data that should be returned with the resource array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function with($request)
-    {
-        return parent::toArray($request);
     }
 }

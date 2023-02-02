@@ -13,7 +13,7 @@ abstract class ZohoModel extends ApiModel
     {
         $response = (new ZohoService)->getRecord($this->moduleName, $id);
 
-        if (isset($response["status"]) and $response["status"] == "error")
+        if (isset($response["status"]) and $response["status"] == "error" or empty($response))
             return null;
 
         $this->fill($response["data"][0]);
@@ -35,13 +35,18 @@ abstract class ZohoModel extends ApiModel
         return null;
     }
 
-    public function list(array $params = [])
+    public function list(array $params = [], bool $all = false)
     {
         $response = (new ZohoService)->getRecords($this->moduleName, ...$params);
 
         if (isset($response["status"]) and $response["status"] == "error")
             return null;
 
-        return [collect($response["data"])->mapInto(get_called_class()), $response["info"]];
+        $collection = collect($response["data"])->mapInto(get_called_class());
+
+        return match ($all) {
+            true => [$collection, $response["info"]],
+            false => $collection,
+        };
     }
 }

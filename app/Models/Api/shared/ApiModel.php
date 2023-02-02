@@ -21,7 +21,7 @@ abstract class ApiModel
         $attributes = $this->setMutateable($attributes);
 
         $fillable = array_intersect_key($attributes, array_flip($this->getFillable()));
-        
+
         foreach ($fillable as $key => $value) {
             if ($this->isFillable($key)) {
                 $this->setAttribute($key, $value);
@@ -31,7 +31,10 @@ abstract class ApiModel
 
     public function __get($name)
     {
-        return $this->attributes[$name];
+        return match (method_exists($this, $name)) {
+            true => $this->{$name}(),
+            false =>  $this->attributes[$name],
+        };
     }
 
     public function __set($name, $value)

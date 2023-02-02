@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Systrack;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Systrack\ProviderReource;
-use App\Services\SystrackService;
+use App\Http\Resources\Systrack\ProviderSystrackReource;
+use App\Models\Api\Systrack\ProviderSystrack;
 use Illuminate\Http\Request;
 
 class SystrackController extends Controller
@@ -16,8 +16,8 @@ class SystrackController extends Controller
      */
     public function index()
     {
-        $list = (new SystrackService)->list();
-        return ProviderReource::collection($list);
+        $providers = (new ProviderSystrack())->list();
+        return ProviderSystrackReource::collection($providers);
     }
 
     /**
@@ -49,7 +49,8 @@ class SystrackController extends Controller
      */
     public function show($id)
     {
-        //
+        $provider = (new ProviderSystrack())->find($id);
+        return new ProviderSystrackReource($provider);
     }
 
     /**
