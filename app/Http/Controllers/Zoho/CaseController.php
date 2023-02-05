@@ -19,7 +19,7 @@ class CaseController extends Controller
      */
     public function index(Request $request)
     {
-        $cases = (new CaseZoho())->list($request->all());
+        $cases = (new CaseZoho())->list($request->all(), true);
         return CaseResource::collection($cases[0])->additional($cases[1]);
     }
 

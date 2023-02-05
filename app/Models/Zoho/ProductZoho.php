@@ -92,17 +92,13 @@ class ProductZoho extends ZohoModel
                 $location = (new Systrack())->find($this->Clave_API);
                 if (is_array($location->trackPoint))
                     return $location->trackPoint["position"];
-
-                return [];
                 break;
 
-                case 'Navixy':
-                    $location = (new Systrack())->find($this->Clave_API);
-                    if (is_array($location->trackPoint))
-                        return $location->trackPoint["position"];
-
-                    return [];
-                    break;
+            case 'Navixy':
+                $location = (new Systrack())->find($this->Clave_API);
+                if (is_array($location->trackPoint))
+                    return $location->trackPoint["position"];
+                break;
         }
     }
 }

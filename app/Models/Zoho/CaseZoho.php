@@ -148,8 +148,8 @@ class CaseZoho extends ZohoModel
             [
                 "Status" => env("ZOHO_START_CASE_STATUS"),
                 "Caso_especial" => true,
-                "Account_Name" => "3222373000013452591", //from logged user
-                "Aseguradora" => "LA COLONIAL, S.A", //from logged user
+                "Account_Name" => auth()->user()->account_name_id,
+                "Aseguradora" => auth()->user()->account_name,
                 "Subject" => env("ZOHO_CASE_SUBJECT"),
                 "Related_To" => env("ZOHO_CASE_USER_ID"),
                 "Case_Origin" => "API",
@@ -159,7 +159,7 @@ class CaseZoho extends ZohoModel
 
     public function providerLocation()
     {
-        $service = (new ProductZoho())->find($this->Product_Name["id"]);
-        return $service->location();
+        if (!empty($this->Product_Name))
+            return (new ProductZoho())->find($this->Product_Name["id"])->location();
     }
 }
