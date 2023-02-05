@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Zoho;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Zoho\CaseRequest;
 use App\Http\Resources\Zoho\CaseResource;
-use App\Models\Api\Zoho\CaseZoho;
+use App\Models\Zoho\CaseZoho;
 use Illuminate\Http\Request;
 
 class CaseController extends Controller
