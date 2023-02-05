@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Systrack;
+namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProviderSystrackReource extends JsonResource
+class NavixyResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

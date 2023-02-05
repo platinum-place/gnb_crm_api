@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Models\Api\Zoho;
+namespace App\Models\Zoho;
 
-use App\Models\Api\shared\ZohoModel;
-use App\Models\Api\Systrack\ProviderSystrack;
+use App\Models\shared\ZohoModel;
 
 class CaseZoho extends ZohoModel
 {
@@ -161,6 +160,6 @@ class CaseZoho extends ZohoModel
     public function providerLocation()
     {
         $service = (new ProductZoho())->find($this->Product_Name["id"]);
-        return (new ProviderSystrack())->find($service->Clave_API)->location();
+        return $service->location();
     }
 }

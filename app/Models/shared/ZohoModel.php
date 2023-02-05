@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Models\Api\shared;
+namespace App\Models\shared;
 
 use App\Services\ZohoService;
-use Illuminate\Support\Collection;
 
 abstract class ZohoModel extends ApiModel
 {

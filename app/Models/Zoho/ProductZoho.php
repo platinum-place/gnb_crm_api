@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Models\Api\Zoho;
+namespace App\Models\Zoho;
 
-use App\Models\Api\shared\ZohoModel;
-use App\Models\Api\Systrack\Provider;
-use Illuminate\Support\Collection;
+use App\Models\shared\ZohoModel;
+use App\Models\Systrack;
 
 class ProductZoho extends ZohoModel
 {
@@ -85,4 +84,25 @@ class ProductZoho extends ZohoModel
         "Renta_veh_culo",
         "Unit_Price"
     ];
+
+    public function location()
+    {
+        switch ($this->Plataforma_API) {
+            case 'Systrack':
+                $location = (new Systrack())->find($this->Clave_API);
+                if (is_array($location->trackPoint))
+                    return $location->trackPoint["position"];
+
+                return [];
+                break;
+
+                case 'Navixy':
+                    $location = (new Systrack())->find($this->Clave_API);
+                    if (is_array($location->trackPoint))
+                        return $location->trackPoint["position"];
+
+                    return [];
+                    break;
+        }
+    }
 }

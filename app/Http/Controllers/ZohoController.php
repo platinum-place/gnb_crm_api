@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Systrack;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\Systrack\ProviderSystrackReource;
-use App\Models\Api\Systrack\ProviderSystrack;
+use App\Http\Resources\ZohoResource;
+use App\Models\Zoho;
 use Illuminate\Http\Request;
 
-class SystrackController extends Controller
+class ZohoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +15,7 @@ class SystrackController extends Controller
      */
     public function index()
     {
-        $providers = (new ProviderSystrack())->list();
-        return ProviderSystrackReource::collection($providers);
+        //
     }
 
     /**
@@ -49,8 +47,7 @@ class SystrackController extends Controller
      */
     public function show($id)
     {
-        $provider = (new ProviderSystrack())->find($id);
-        return new ProviderSystrackReource($provider);
+        //
     }
 
     /**
@@ -85,5 +82,17 @@ class SystrackController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function refreshToken()
+    {
+        $zoho = (new Zoho())->refreshToken();
+        return new ZohoResource($zoho);
+    }
+
+    public function accessToken()
+    {
+        $zoho = (new Zoho())->accessToken();
+        return new ZohoResource($zoho);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Api\shared;
+namespace App\Models\shared;
 
 abstract class ApiModel
 {

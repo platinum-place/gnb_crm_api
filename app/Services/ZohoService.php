@@ -11,31 +11,29 @@ class ZohoService extends ApiService
         $this->config = config('zoho');
 
         $this->header = [
-            'Authorization' => 'Zoho-oauthtoken ' . $this->generateAccessToken()
+            'Authorization' => 'Zoho-oauthtoken ' . $this->generateAccessToken()["access_token"]
         ];
     }
 
-    public function generateRefreshToken(): string
+    public function generateRefreshToken(): array
     {
-        $response = $this->getResponsePostBodyAsform($this->config["url_token"], [
+        return $this->getResponsePostBodyAsform($this->config["url_token"], [
             "client_id" => $this->config["client_id"],
             "client_secret" => $this->config["client_secret"],
             "redirect_uri" => $this->config["redirect_uri"],
             "grant_type" => $this->config["grant_type_generate"],
             "code" => $this->config["grant_token"],
         ]);
-        return $response["refresh_token"];
     }
 
-    public function generateAccessToken(): string
+    public function generateAccessToken(): array
     {
-        $response = $this->getResponsePostBodyAsform($this->config["url_token"], [
+        return $this->getResponsePostBodyAsform($this->config["url_token"], [
             "client_id" => $this->config["client_id"],
             "client_secret" => $this->config["client_secret"],
             "grant_type" => $this->config["grant_type"],
             "refresh_token" => $this->config["refresh_token"],
         ]);
-        return $response["access_token"];
     }
 
     /** sort_by = ["id", "Created_Time", "Modified_Time"] */
