@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Api;
 
-use App\Models\shared\ApiModel;
+use App\Models\Api\shared\ApiModel;
 use App\Services\NavixyService;
 
 class Navixy extends ApiModel

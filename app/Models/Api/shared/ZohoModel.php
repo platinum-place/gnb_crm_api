@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\shared;
+namespace App\Models\Api\shared;
 
 use App\Services\ZohoService;
 

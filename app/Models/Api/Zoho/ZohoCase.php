@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models\Zoho;
+namespace App\Models\Api\Zoho;
 
-use App\Models\shared\ZohoModel;
+use App\Models\Api\shared\ZohoModel;
 
-class CaseZoho extends ZohoModel
+class ZohoCase extends ZohoModel
 {
     protected string $moduleName = 'Cases';
 
@@ -150,8 +150,8 @@ class CaseZoho extends ZohoModel
                 "Caso_especial" => true,
                 "Account_Name" => auth()->user()->account_name_id,
                 "Aseguradora" => auth()->user()->account_name,
+                "Related_To" => auth()->user()->contact_name_id,
                 "Subject" => env("ZOHO_CASE_SUBJECT"),
-                "Related_To" => env("ZOHO_CASE_USER_ID"),
                 "Case_Origin" => "API",
             ]
         ));
@@ -160,6 +160,6 @@ class CaseZoho extends ZohoModel
     public function providerLocation()
     {
         if (!empty($this->Product_Name))
-            return (new ProductZoho())->find($this->Product_Name["id"])->location();
+            return (new ZohoProduct())->find($this->Product_Name["id"])->location();
     }
 }

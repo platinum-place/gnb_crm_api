@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\Zoho;
+namespace App\Models\Api\Zoho;
 
-use App\Models\shared\ZohoModel;
-use App\Models\Systrack;
+use App\Models\Api\shared\ZohoModel;
+use App\Models\Api\Systrack;
 
-class ProductZoho extends ZohoModel
+class ZohoProduct extends ZohoModel
 {
     protected string $moduleName = 'Products';
 

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('account_name_id');
             $table->string('account_name');
+            $table->string('contact_name_id');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

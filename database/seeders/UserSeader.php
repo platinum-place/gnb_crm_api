@@ -26,6 +26,7 @@ class UserSeader extends Seeder
             'email' => 'colonial@gnb.com',
             'account_name_id' => '3222373000013452591',
             'account_name' => 'LA COLONIAL, S.A',
+            'contact_name_id' => '3222373000031472977',
         ]);
     }
 }
