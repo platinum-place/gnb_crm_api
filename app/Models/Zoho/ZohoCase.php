@@ -27,6 +27,27 @@ class ZohoCase extends ZohoModel
         "Subject", "Tiempo_de_cierre", "A_o", '$in_merge', "Total", "C_dula", '$approval_state'
     ];
 
+    // translate the values sent by the client
+    protected array $mutable = [
+        "P_liza" => "policy_number",
+        "Chasis" => "chassis",
+        "A_o" => "vehicle_year",
+        "Color" => "vehicle_color",
+        "Marca" => "vehicle_make",
+        "Modelo" => "vehicle_model",
+        "Placa" => "vehicle_plate",
+        "Punto_A" => "site_a",
+        "Punto_B" => "site_b",
+        "Solicitante" => "client_name",
+        "Phone" => "phone",
+        "Plan" => "policy_plan",
+        "Description" => "description",
+        "Ubicaci_n" => "location_url",
+        "Tipo_de_asistencia" => "service",
+        "Zona" => "zone",
+        "Asegurado" => "client_name",
+    ];
+
     public function isFinished(): bool
     {
         return in_array(
@@ -38,23 +59,6 @@ class ZohoCase extends ZohoModel
                 "Cerrado",
             ]
         );
-    }
-
-    public function create(array $attributes = []): self|null
-    {
-        $config = config("zoho");
-        return parent::create(array_merge(
-            $attributes,
-            [
-                "Status" => $config["case_status"],
-                "Caso_especial" => true,
-                "Account_Name" => auth()->user()->account_name_id,
-                "Aseguradora" => auth()->user()->account_name,
-                "Related_To" => auth()->user()->contact_name_id,
-                "Subject" => $config["case_subject"],
-                "Case_Origin" => "API",
-            ]
-        ));
     }
 
     public function provider()

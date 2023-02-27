@@ -8,6 +8,8 @@ abstract class ApiModel
 
     protected array $fillable = [];
 
+    protected array $mutable = [];
+
     public function __construct(array $attributes = [])
     {
         if (!empty($attributes))
@@ -56,5 +58,28 @@ abstract class ApiModel
     public function toArray()
     {
         return $this->attributes;
+    }
+
+    protected function setMutation(array $attributes)
+    {
+        if (!empty($attributes) and count($this->mutable) > 0) {
+            $attributesMutated = [];
+            foreach ($this->mutable as $key => $value) {
+                if (array_key_exists($value, $attributes)) {
+                    $attributesMutated[$key] = $attributes[$value];
+                }
+            }
+
+            if (!empty($attributesMutated)) {
+                $attributes =  array_merge($attributesMutated, $attributes);
+                foreach ($this->mutable as $key => $value) {
+                    if (isset($attributes[$value]) && !is_null($value)) {
+                        $attributes[$value] = $attributes[$value];
+                        unset($attributes[$value]);
+                    }
+                }
+            }
+        }
+        return $attributes;
     }
 }
