@@ -27,17 +27,11 @@ class ZohoService extends ApiService
         return $response["access_token"];
     }
 
-    /** sort_by = ["id", "Created_Time", "Modified_Time"] */
-    public function getRecords(string $moduleName, int $page = 1, int $per_page = 10, string $sort_order = "desc", string $sort_by = "id"): array
+    public function getRecords(string $moduleName, array $params = []): array
     {
         return $this->getResponseBody(
             $this->config["url_api"] . $moduleName,
-            [
-                "page" => $page,
-                "per_page" => $per_page,
-                "sort_order" => $sort_order,
-                "sort_by" => $sort_by,
-            ],
+            $params,
             $this->header
         );
     }

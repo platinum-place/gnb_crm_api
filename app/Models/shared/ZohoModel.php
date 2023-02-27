@@ -34,9 +34,16 @@ abstract class ZohoModel extends ApiModel
         return null;
     }
 
+    // sort_by = ["id", "Created_Time", "Modified_Time"]
+    // int $page = 1,
+    // int $per_page = 10,
+    // string $sort_order = "desc",
+    // string $sort_by = "id"
     public function list(array $params = [], bool $all = false)
     {
-        $response = (new ZohoService)->getRecords($this->moduleName, ...$params);
+        $params = $this->setMutation($params);
+
+        $response = (new ZohoService)->getRecords($this->moduleName, $params);
 
         if (isset($response["status"]) and $response["status"] == "error")
             return null;

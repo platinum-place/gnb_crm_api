@@ -36,7 +36,6 @@ class CaseController extends Controller
         $request->merge([
             "Status" => $config["case_status"],
             "Caso_especial" => true,
-            "Account_Name" => auth()->user()->account_name_id,
             "Aseguradora" => auth()->user()->account_name,
             "Related_To" => auth()->user()->contact_name_id,
             "Subject" => $config["case_subject"],

@@ -22,7 +22,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
         return $request->user();
     });
 
-    Route::resource('cases', CaseController::class);
+    Route::middleware(['zoho.filter_account'])->group(function () {
+        Route::resource('cases', CaseController::class);
+    });
+
     Route::resource('navixy', NavixyController::class);
     Route::resource('systrack', SystrackController::class);
 });
