@@ -3,10 +3,9 @@
 namespace App\Models\Api;
 
 use App\Models\shared\ApiModel;
-use App\Models\shared\IApiGps;
 use App\Services\SystrackService;
 
-class Systrack extends ApiModel implements IApiGps
+class Systrack extends ApiModel
 {
     protected array $fillable = [
         "trackPoint", "calculatedSpeed", "deviceActivity", "username",
@@ -26,8 +25,13 @@ class Systrack extends ApiModel implements IApiGps
         return $this;
     }
 
-    public function getTrackPoint(): array
+    public function lat()
     {
-        return $this->trackPoint["position"];
+        return $this->trackPoint["position"]["latitude"];
+    }
+
+    public function lng()
+    {
+        return $this->trackPoint["position"]["longitude"];
     }
 }

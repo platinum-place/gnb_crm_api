@@ -27,12 +27,9 @@ class ZohoProduct extends ZohoModel
 
     public function location()
     {
-        $location = match ($this->Plataforma_API) {
+        return match ($this->Plataforma_API) {
             'Systrack' => (new Systrack())->find($this->Clave_API),
             'Navixy' => (new Navixy())->find($this->Clave_API),
         };
-
-        if (is_array($location->trackPoint))
-            return $location->getTrackPoint();
     }
 }

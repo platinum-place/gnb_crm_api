@@ -22,8 +22,6 @@ abstract class ZohoModel extends ApiModel
 
     public function create(array $attributes = [])
     {
-        $attributes = $this->setMutation($attributes);
-
         $attributes = (empty($attributes)) ? $this->attributes : $attributes;
 
         $response = (new ZohoService)->create($this->moduleName, $attributes);

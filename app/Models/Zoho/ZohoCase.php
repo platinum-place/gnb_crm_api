@@ -27,26 +27,6 @@ class ZohoCase extends ZohoModel
         "Subject", "Tiempo_de_cierre", "A_o", '$in_merge', "Total", "C_dula", '$approval_state'
     ];
 
-    protected array $mutate = [
-        "P_liza" => "policy_number",
-        "Chasis" => "chassis",
-        "A_o" => "vehicle_year",
-        "Color" => "vehicle_color",
-        "Marca" => "vehicle_make",
-        "Modelo" => "vehicle_model",
-        "Placa" => "vehicle_plate",
-        "Punto_A" => "site_a",
-        "Punto_B" => "site_b",
-        "Solicitante" => "client_name",
-        "Phone" => "phone",
-        "Plan" => "policy_plan",
-        "Description" => "description",
-        "Ubicaci_n" => "location_url",
-        "Tipo_de_asistencia" => "service",
-        "Zona" => "zone",
-        "Fecha" => "created_date",
-    ];
-
     public function isFinished(): bool
     {
         return in_array(
@@ -77,19 +57,9 @@ class ZohoCase extends ZohoModel
         ));
     }
 
-    public function providerLocation()
+    public function provider()
     {
-        if (!empty($this->Product_Name))
-            return (new ZohoProduct())->find($this->Product_Name["id"])->location;
-    }
-
-    public function times()
-    {
-        return [
-            "start" => $this->Llamada,
-            "sent_service" => $this->Despacho,
-            "service_contacted" => $this->Contacto,
-            "end" => $this->Cierre,
-        ];
+        if ($this->Product_Name)
+            return (new ZohoProduct())->find($this->Product_Name["id"]);
     }
 }
