@@ -44,6 +44,7 @@ class ZohoCase extends ZohoModel
         "Ubicaci_n" => "location_url",
         "Tipo_de_asistencia" => "service",
         "Zona" => "zone",
+        "Fecha" => "created_date",
     ];
 
     public function isFinished(): bool
@@ -79,6 +80,16 @@ class ZohoCase extends ZohoModel
     public function providerLocation()
     {
         if (!empty($this->Product_Name))
-            return (new ZohoProduct())->find($this->Product_Name["id"])->location();
+            return (new ZohoProduct())->find($this->Product_Name["id"])->location;
+    }
+
+    public function times()
+    {
+        return [
+            "start" => $this->Llamada,
+            "sent_service" => $this->Despacho,
+            "service_contacted" => $this->Contacto,
+            "end" => $this->Cierre,
+        ];
     }
 }

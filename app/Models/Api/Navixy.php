@@ -3,9 +3,10 @@
 namespace App\Models\Api;
 
 use App\Models\shared\ApiModel;
+use App\Models\shared\IApiGps;
 use App\Services\NavixyService;
 
-class Navixy extends ApiModel
+class Navixy extends ApiModel implements IApiGps
 {
     protected array $fillable = [
         "id", "label", "group_id", "source", "tag_bindings", "satellites",
@@ -25,7 +26,7 @@ class Navixy extends ApiModel
         return $this;
     }
 
-    public function getTrackPoint()
+    public function getTrackPoint(): array
     {
         return [
             "lat" => $this->lat,

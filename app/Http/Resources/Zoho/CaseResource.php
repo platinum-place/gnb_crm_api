@@ -30,6 +30,10 @@ class CaseResource extends JsonResource
             "description" => $this->Description,
             "gps_provider" => $this->providerLocation,
             "service" => $this->Tipo_de_asistencia,
+            "zone" => $this->Zona,
+            "status" => $this->Status,
+            "times" => $this->times,
+            "created_date" => $this->Fecha,
         ];
     }
 }
