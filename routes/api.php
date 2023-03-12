@@ -1,8 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\NavixyController;
-use App\Http\Controllers\Api\SystrackController;
-use App\Http\Controllers\Zoho\CaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,15 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
-
-    Route::middleware(['zoho.filter_account'])->group(function () {
-        Route::resource('cases', CaseController::class);
-    });
-
-    Route::resource('navixy', NavixyController::class);
-    Route::resource('systrack', SystrackController::class);
+Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+    return $request->user();
 });
