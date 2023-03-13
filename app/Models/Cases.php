@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
-class Cases
+use App\Models\shared\ApiModel;
+
+class Cases extends ApiModel
 {
 
 }
