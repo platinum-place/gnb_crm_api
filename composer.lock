@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dbe81bbecc202e449e23e0b65e4997e3",
+    "content-hash": "620a8ac301cc48c90fb6c4aee08ea6f2",
     "packages": [
         {
             "name": "brick/math",
@@ -2277,6 +2277,65 @@
                 }
             ],
             "time": "2023-02-25T19:38:58+00:00"
+        },
+        {
+            "name": "platinum-place/laravel-zoho-crm-api",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/platinum-place/laravel-zoho-crm-api.git",
+                "reference": "bc264cfe1880f879dc5e06848ef2e68fed6b7267"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/platinum-place/laravel-zoho-crm-api/zipball/bc264cfe1880f879dc5e06848ef2e68fed6b7267",
+                "reference": "bc264cfe1880f879dc5e06848ef2e68fed6b7267",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^10.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^10.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "PlatinumPlace\\LaravelZohoCrmApi\\ZohoServiceProvider"
+                    ],
+                    "aliases": {
+                        "Zoho": "PlatinumPlace\\LaravelZohoCrmApi\\Facades\\Zoho"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PlatinumPlace\\LaravelZohoCrmApi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "platinumplace",
+                    "email": "warlyn200@gmail.com"
+                }
+            ],
+            "description": "zoho crm api integration with laravel without using sdk",
+            "keywords": [
+                "Zoho",
+                "api",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/platinum-place/laravel-zoho-crm-api/issues",
+                "source": "https://github.com/platinum-place/laravel-zoho-crm-api/tree/1.0.3"
+            },
+            "time": "2023-03-13T00:10:06+00:00"
         },
         {
             "name": "psr/container",

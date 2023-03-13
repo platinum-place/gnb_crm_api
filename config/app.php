@@ -197,6 +197,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        PlatinumPlace\LaravelZohoCrmApi\ZohoServiceProvider::class,
     ],
 
     /*
@@ -212,6 +213,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'Zoho' => PlatinumPlace\LaravelZohoCrmApi\Facades\Zoho::class,
     ])->toArray(),
 
 ];
