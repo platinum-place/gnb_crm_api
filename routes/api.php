@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CasesController;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return new UserResource($request->user());
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/user', function (Request $request) {
+        return new UserResource($request->user());
+    });
+
+    Route::middleware(['user.filter'])->group(function () {
+        Route::apiResource('cases', CasesController::class);
+    });
 });
