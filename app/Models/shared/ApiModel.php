@@ -14,7 +14,7 @@ abstract class ApiModel
             $this->fill($attributes);
     }
 
-    protected function fill(array $attributes)
+    public function fill(array $attributes)
     {
         $fillable = array_intersect_key($attributes, array_flip($this->getFillable()));
         foreach ($fillable as $key => $value) {
@@ -22,6 +22,7 @@ abstract class ApiModel
                 $this->setAttribute($key, $value);
             }
         }
+        return $this;
     }
 
     public function __get($name)

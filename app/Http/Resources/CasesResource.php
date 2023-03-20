@@ -34,6 +34,7 @@ class CasesResource extends JsonResource
                 "site_b" => $this->Punto_B,
                 "description" => $this->Description,
                 "service" => $this->Tipo_de_asistencia,
+                "provider" => $this->Product_Name["name"],
             ],
             "vehicle" => [
                 "chassis" => $this->Chasis,
@@ -44,10 +45,7 @@ class CasesResource extends JsonResource
                 "plate" => $this->Placa,
             ],
             "assisted_by" => $this->Related_To["name"],
-            "gps_provider" => [
-                "lat" => $this->provider->location->lat ?? null,
-                "lng" => $this->provider->location->lng ?? null,
-            ],
+            "gps_provider" => $this->service->location,
             "times" => [
                 "start" => $this->Llamada,
                 "sent_service" => $this->Despacho,

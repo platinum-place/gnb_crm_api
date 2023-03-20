@@ -37,7 +37,16 @@ class CasesController extends Controller
      */
     public function show(string $id)
     {
-        //
+        /** @var \App\Models\Cases */
+        $case = $this->repository->getById($id);
+
+        if (!$case)
+            return response()->json(['message' => 'Case not found.']);
+
+        if ($case->isFinished())
+            return response()->json(['message' => 'Case finished.']);
+
+        return new CasesResource($case);
     }
 
     /**

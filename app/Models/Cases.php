@@ -60,4 +60,10 @@ class Cases extends ZohoModel
             ]
         );
     }
+
+    public function service()
+    {
+        if ($this->Product_Name)
+            return (new Product())->newBuilder()->find($this->Product_Name["id"]);
+    }
 }

@@ -2,10 +2,9 @@
 
 namespace App\Repositories\Zoho;
 
-use App\Facades\Zoho;
 use App\Models\shared\ZohoModel;
-use App\Repositories\shared\ApiRepository;
 use App\Repositories\shared\IApiRepository;
+use Illuminate\Support\Facades\Auth;
 
 abstract class ZohoRepository implements IApiRepository
 {
@@ -18,9 +17,20 @@ abstract class ZohoRepository implements IApiRepository
 
     public function list(array $params)
     {
+        $list = $this->model->newBuilder();
         foreach ($params as $key => $value) {
-            $this->model->where($key, $value);
+            $list->where($key, $value);
         }
-        return $this->model->get(true);
+        return $list->get();
+    }
+
+    public function getById(string|int $id)
+    {
+        $model = $this->model->newBuilder()->find($id);
+
+        if (!$model->belongToUser(Auth::user()->account_name_id))
+            return null;
+
+        return $model;
     }
 }
