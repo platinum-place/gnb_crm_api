@@ -3,14 +3,18 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
+use App\Models\ApiModel;
 
 class NavixyService
 {
     protected array $config = [], $header = [];
 
+    protected ApiModel $model;
+
     public function __construct()
     {
         $this->config = config('navixy');
+        $this->model = new ApiModel();
     }
 
     public function list()
@@ -27,6 +31,19 @@ class NavixyService
             'hash' => $this->config["hash"],
             'tracker_id' => $id,
         ]);
-        return json_decode($response->body(), true) ?? [];
+
+        $responseJson = json_decode($response->body(), true) ?? [];
+
+        if (!empty($responseJson["lat"]))
+            return $this->model->fill($responseJson);
+    }
+
+    public function getLocation(int $id)
+    {
+        $model = $this->find($id);
+        return [
+            "lat" => $model->lat,
+            "lng" => $model->lng,
+        ];
     }
 }

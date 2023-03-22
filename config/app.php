@@ -212,6 +212,8 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'Zoho' => App\Facades\Zoho::class,
+        'Systrack' => App\Facades\Systrack::class,
+        'Navixy' => App\Facades\Navixy::class,
     ])->toArray(),
 
 ];

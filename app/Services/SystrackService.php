@@ -3,10 +3,14 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
+use App\Models\ApiModel;
+use App\Services\shared\SystrackBuilder;
 
 class SystrackService
 {
     protected array $config = [], $header = [];
+
+    protected ApiModel $model;
 
     public function __construct()
     {
@@ -19,6 +23,8 @@ class SystrackService
             "Pass" => $this->config["pass"],
             "Authorization" => $this->config["token"],
         ];
+
+        $this->model = new ApiModel();
     }
 
     public function list(int $id = null)
@@ -27,6 +33,19 @@ class SystrackService
             'FromIndex' => 0,
             'PageSize' => 1000,
         ]);
-        return json_decode($response->body(), true) ?? [];
+
+        $responseJson = json_decode($response->body(), true) ?? [];
+
+        if (!empty($responseJson["trackPoint"]))
+            return $this->model->fill($responseJson);
+    }
+
+    public function getLocation(int $id)
+    {
+        $model = $this->list($id);
+        return [
+            "lat" => $model->trackPoint["position"]["latitude"],
+            "lng" => $model->trackPoint["position"]["longitude"],
+        ];
     }
 }

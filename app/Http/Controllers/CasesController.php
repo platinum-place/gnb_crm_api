@@ -21,7 +21,7 @@ class CasesController extends Controller
     public function index(Request $request)
     {
         $cases = $this->repository->list($request->all());
-        return CasesResource::collection($cases->get("data"))->additional($cases->get("meta"));
+        return CasesResource::collection($cases[0])->additional($cases[1]);
     }
 
     /**
@@ -43,7 +43,7 @@ class CasesController extends Controller
         if (!$case)
             return response()->json(['message' => 'Case not found.']);
 
-        if ($case->isFinished())
+        if ($this->repository->isFinished($case))
             return response()->json(['message' => 'Case finished.']);
 
         return new CasesResource($case);

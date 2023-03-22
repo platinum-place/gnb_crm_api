@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Models\shared;
+namespace App\Models;
 
-abstract class ApiModel
+class ApiModel
 {
     protected array $attributes = [];
-
-    protected array $fillable = [];
 
     public function __construct(array $attributes = [])
     {
@@ -16,11 +14,8 @@ abstract class ApiModel
 
     public function fill(array $attributes)
     {
-        $fillable = array_intersect_key($attributes, array_flip($this->getFillable()));
-        foreach ($fillable as $key => $value) {
-            if ($this->isFillable($key)) {
-                $this->setAttribute($key, $value);
-            }
+        foreach ($attributes as $key => $value) {
+            $this->setAttribute($key, $value);
         }
         return $this;
     }
@@ -35,24 +30,9 @@ abstract class ApiModel
         $this->attributes[$name] = $value;
     }
 
-    protected function isFillable($key)
-    {
-        return (in_array($key, $this->getFillable())) ? true : false;
-    }
-
     protected function setAttribute($key, $value)
     {
         $this->attributes[$key] = $value;
         return $this;
-    }
-
-    protected function getFillable()
-    {
-        return $this->fillable;
-    }
-
-    public function toArray()
-    {
-        return $this->attributes;
     }
 }
