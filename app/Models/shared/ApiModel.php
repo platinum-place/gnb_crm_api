@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\shared;
 
-class ApiModel
+abstract class ApiModel
 {
     protected array $attributes = [];
 
