@@ -39,4 +39,9 @@ abstract class ZohoRepository implements IApiRepository
     {
         return $model->Account_Name["id"] == $id;
     }
+
+    public function create(array $attributes)
+    {
+        return $this->model->create($attributes);
+    }
 }

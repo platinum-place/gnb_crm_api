@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\CasesResource;
-use App\Repositories\Zoho\CasesRepository;
+use App\Http\Requests\CaseRequest;
+use App\Http\Resources\CaseResource;
+use App\Repositories\Zoho\CaseRepository;
 use Illuminate\Http\Request;
 
 class CasesController extends Controller
 {
-    protected CasesRepository $repository;
+    protected CaseRepository $repository;
 
-    public function __construct(CasesRepository $repository)
+    public function __construct(CaseRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -21,15 +22,23 @@ class CasesController extends Controller
     public function index(Request $request)
     {
         $cases = $this->repository->list($request->all());
-        return CasesResource::collection($cases);
+        return CaseResource::collection($cases);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CaseRequest $request)
     {
-        //
+        $case = $this->repository->create($request->all());
+
+        if (!$case)
+            return response()->json([
+                'code' => 404,
+                'message' => 'Case could not create.',
+            ]);
+
+        return new CaseResource($case);
     }
 
     /**
@@ -46,7 +55,7 @@ class CasesController extends Controller
         if ($case->isFinished())
             return response()->json(['message' => 'Case finished.']);
 
-        return new CasesResource($case);
+        return new CaseResource($case);
     }
 
     /**

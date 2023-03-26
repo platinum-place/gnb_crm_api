@@ -77,4 +77,14 @@ class ZohoBuilder
 
         return $this->model->fill($response["data"][0]);
     }
+
+    public function create(array $attributes)
+    {
+        $response = Zoho::create($this->model->module, $attributes);
+
+        if (isset($response["data"][0]["details"]["id"]))
+            return $this->find($response["data"][0]["details"]["id"]);
+
+        return null;
+    }
 }
