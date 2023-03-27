@@ -43,7 +43,7 @@ class ZohoBuilder
         return $this;
     }
 
-    public function get()
+    public function get(): LengthAwarePaginator
     {
         $module = $this->model->module;
 
@@ -68,23 +68,15 @@ class ZohoBuilder
         ]);
     }
 
-    public function find(int $id)
+    public function find(int $id): ZohoModel
     {
         $response = Zoho::getRecord($this->model->module, $id);
-
-        if (isset($response["status"]) and $response["status"] == "error" or empty($response))
-            return null;
-
         return $this->model->fill($response["data"][0]);
     }
 
-    public function create(array $attributes)
+    public function create(array $attributes): ZohoModel
     {
         $response = Zoho::create($this->model->module, $attributes);
-
-        if (isset($response["data"][0]["details"]["id"]))
-            return $this->find($response["data"][0]["details"]["id"]);
-
-        return null;
+        return $this->find($response["data"][0]["details"]["id"]);
     }
 }
