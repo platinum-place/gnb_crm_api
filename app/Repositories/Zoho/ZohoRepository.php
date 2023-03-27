@@ -29,7 +29,7 @@ abstract class ZohoRepository implements IApiRepository
     {
         $model = $this->model->find($id);
 
-        if (!$this->belongToUser($model, Auth::user()->account_name_id))
+        if ($model and !$this->belongToUser($model, Auth::user()->account_name_id))
             return null;
 
         return $model;
