@@ -34,9 +34,8 @@ class CaseResource extends JsonResource
                 "site_b" => $this->Punto_B,
                 "description" => $this->Description,
                 "service" => $this->Tipo_de_asistencia,
-                "provider" => $this->Product_Name["name"] ?? "",
-                "gps_provider" => $this->gpsProvider,
             ],
+            "provider_info" => $this->provider,
             "vehicle" => [
                 "chassis" => $this->Chasis,
                 "year" => $this->A_o,

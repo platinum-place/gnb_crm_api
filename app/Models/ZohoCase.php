@@ -26,10 +26,13 @@ class ZohoCase extends ZohoModel
         "Asegurado" => "client_name",
     ];
 
-    public function gpsProvider()
+    public function provider()
     {
         if ($this->Product_Name)
-            return (new ZohoProduct)->find($this->Product_Name["id"])->location;
+            return [
+                "provider" => $this->Product_Name["name"],
+                "locations" => (new ZohoProduct)->find($this->Product_Name["id"])->location
+            ];
     }
 
     public function isFinished(): bool
