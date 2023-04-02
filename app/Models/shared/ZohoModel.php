@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\shared;
 
 use App\Builders\ZohoBuilder;
 use App\Models\shared\ApiModel;
@@ -50,7 +50,7 @@ class ZohoModel extends ApiModel
         return $this->newQuery()->find($id);
     }
 
-    public function create(array $attributes)
+    public function create(array $attributes = [])
     {
         $attributes = (empty($attributes)) ? $this->attributes : $attributes;
 

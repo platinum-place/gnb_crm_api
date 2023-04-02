@@ -6,6 +6,8 @@ abstract class ApiModel
 {
     protected array $attributes = [];
 
+    protected array $fillable = [];
+
     public function __construct(array $attributes = [])
     {
         if (!empty($attributes))
@@ -14,8 +16,11 @@ abstract class ApiModel
 
     public function fill(array $attributes)
     {
-        foreach ($attributes as $key => $value) {
-            $this->setAttribute($key, $value);
+        $fillable = array_intersect_key($attributes, array_flip($this->fillable));
+        foreach ($fillable as $key => $value) {
+            if ($this->isFillable($key)) {
+                $this->setAttribute($key, $value);
+            }
         }
         return $this;
     }
@@ -34,5 +39,10 @@ abstract class ApiModel
     {
         $this->attributes[$key] = $value;
         return $this;
+    }
+
+    protected function isFillable($key)
+    {
+        return (in_array($key, $this->fillable)) ? true : false;
     }
 }

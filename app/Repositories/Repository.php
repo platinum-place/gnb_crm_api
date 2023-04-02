@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Repositories\Zoho;
+namespace App\Repositories;
 
-use App\Facades\Zoho;
-use App\Models\ZohoModel;
+use App\Models\shared\ZohoModel;
 use App\Repositories\shared\IApiRepository;
-use Illuminate\Support\Facades\Auth;
 
-abstract class ZohoRepository implements IApiRepository
+class Repository implements IApiRepository
 {
     protected ZohoModel $model;
 
@@ -27,17 +25,7 @@ abstract class ZohoRepository implements IApiRepository
 
     public function getById(string|int $id)
     {
-        $model = $this->model->find($id);
-
-        if ($model and !$this->belongToUser($model, Auth::user()->account_name_id))
-            return null;
-
-        return $model;
-    }
-
-    public function belongToUser($model, $id)
-    {
-        return $model->Account_Name["id"] == $id;
+        return $this->model->find($id);
     }
 
     public function create(array $attributes)

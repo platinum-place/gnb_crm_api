@@ -3,17 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CaseRequest;
-use App\Http\Resources\CaseResource;
-use App\Repositories\Zoho\CaseRepository;
+use App\Http\Resources\ZohoCaseResource;
+use App\Models\ZohoCase;
+use App\Repositories\Repository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CasesController extends Controller
 {
-    protected CaseRepository $repository;
+    protected Repository $repository;
 
-    public function __construct(CaseRepository $repository)
+    public function __construct(ZohoCase $model)
     {
-        $this->repository = $repository;
+        $this->repository = new Repository($model);
     }
 
     /**
@@ -22,7 +24,7 @@ class CasesController extends Controller
     public function index(Request $request)
     {
         $cases = $this->repository->list($request->all());
-        return CaseResource::collection($cases);
+        return ZohoCaseResource::collection($cases);
     }
 
     /**
@@ -33,12 +35,9 @@ class CasesController extends Controller
         $case = $this->repository->create($request->all());
 
         if (!$case)
-            return response()->json([
-                'code' => 404,
-                'message' => 'Case could not create.',
-            ]);
+            return response()->json(['code' => 404, 'message' => 'Case could not create.']);
 
-        return new CaseResource($case);
+        return new ZohoCaseResource($case);
     }
 
     /**
@@ -46,16 +45,12 @@ class CasesController extends Controller
      */
     public function show(string $id)
     {
-        /** @var \App\Models\Cases */
         $case = $this->repository->getById($id);
 
-        if (!$case)
+        if (!$case or !Gate::allows('belongToUser', $case))
             return response()->json(['message' => 'Case not found.']);
 
-        if ($case->isFinished())
-            return response()->json(['message' => 'Case finished.']);
-
-        return new CaseResource($case);
+        return new ZohoCaseResource($case);
     }
 
     /**

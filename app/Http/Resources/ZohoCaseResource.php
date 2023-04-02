@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CaseResource extends JsonResource
+class ZohoCaseResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,7 +20,7 @@ class CaseResource extends JsonResource
                 "company" => $this->Account_Name["name"],
                 "case_number" => $this->TUA,
                 "created_date" => $this->Fecha,
-                "case_status" => $this->Status,
+                "case_status" => $this->isFinished(),
             ],
             "client" => [
                 "name" => $this->Solicitante,

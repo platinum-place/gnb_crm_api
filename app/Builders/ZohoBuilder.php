@@ -2,7 +2,7 @@
 
 namespace App\Builders;
 
-use App\Models\ZohoModel;
+use App\Models\shared\ZohoModel;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Facades\Zoho;
 
@@ -68,15 +68,16 @@ class ZohoBuilder
         ]);
     }
 
-    public function find(int $id): ZohoModel
+    public function find(int $id)
     {
         $response = Zoho::getRecord($this->model->module, $id);
         return $this->model->fill($response["data"][0]);
     }
 
-    public function create(array $attributes): ZohoModel
+    public function create(array $attributes)
     {
         $response = Zoho::create($this->model->module, $attributes);
-        return $this->find($response["data"][0]["details"]["id"]);
+        if (isset($response["status"]) and $response["status"] == "error")
+            return $this->find($response["data"][0]["details"]["id"]);
     }
 }
