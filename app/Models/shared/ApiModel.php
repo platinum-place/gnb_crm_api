@@ -4,6 +4,8 @@ namespace App\Models\shared;
 
 abstract class ApiModel
 {
+    use HasPolicies;
+
     protected array $attributes = [];
 
     protected array $fillable = [];

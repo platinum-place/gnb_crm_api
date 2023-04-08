@@ -7,7 +7,6 @@ use App\Http\Resources\ZohoCaseResource;
 use App\Models\ZohoCase;
 use App\Repositories\Repository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 
 class CasesController extends Controller
 {
@@ -47,7 +46,7 @@ class CasesController extends Controller
     {
         $case = $this->repository->getById($id);
 
-        if (!$case or !Gate::allows('belongToUser', $case))
+        if (!$case or !$case->can('belongToUser'))
             return response()->json(['message' => 'Case not found.']);
 
         return new ZohoCaseResource($case);
