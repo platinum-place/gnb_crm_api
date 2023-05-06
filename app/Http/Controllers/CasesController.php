@@ -44,7 +44,7 @@ class CasesController extends Controller
     {
         $case = $this->repository->getById($id);
 
-        if ($request->user()->account_name_id !== $case['Account_Name']['id'])
+        if ($request->user()->can('belongTo', [$case]))
             return response()->json(['message' => 'Case not found.']);
 
         return new ZohoCaseResource($case);
