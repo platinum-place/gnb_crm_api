@@ -12,11 +12,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        // admin user
+        \App\Models\User::factory()->create([
+            'name' => 'admin',
+            'email' => 'admin@gnb.com',
+        ]);
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        // colonial user
+        \App\Models\User::factory()->create([
+            'name' => 'admin',
+            'email' => 'colonial@gnb.com',
+            'account_name_id' => '3222373000013452591',
+            'account_name' => 'LA COLONIAL, S.A',
+            'contact_name_id' => '3222373000031472977',
+        ]);
     }
 }

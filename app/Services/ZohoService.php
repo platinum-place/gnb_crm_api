@@ -5,14 +5,14 @@ namespace App\Services;
 use App\Models\shared\ApiModel;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ZohoService
 {
     protected array $config = [], $header = [];
 
     protected string $module;
-
-    protected string $criteria = "";
 
     protected array $params = ["page", "sort_by", "sort_order", "per_page"];
 
@@ -28,7 +28,7 @@ class ZohoService
         $this->header = ['Authorization' => 'Zoho-oauthtoken ' . $this->generateToken()["access_token"]];
     }
 
-    public function initialice(string $module)
+    public function prepare(string $module)
     {
         $this->module = $module;
         return $this;
@@ -58,36 +58,33 @@ class ZohoService
         return json_decode($response->body(), true);
     }
 
-    public function search($field, $operator = "", $value = "", $concatenator = "and")
+    public function search($field, $operator = "", $value = "")
     {
         if (!in_array($operator, $this->operators)) {
             $value = $operator;
             $operator = $this->operators[0];
         }
 
-        if (in_array($field, $this->params)) {
+        $filter = "(($field:$operator:$value))";
+
+        if (in_array($field, $this->params))
             $this->filters[$field] = $value;
-        } else {
-            $filter = "(($field:$operator:$value))";
-            $filter .= (!empty($this->criteria)) ? $concatenator : "";
-            $this->criteria .=  $filter;
-        }
+        else
+            $this->filters['criteria'] = match (isset($this->filters['criteria'])) {
+                true => $this->filters['criteria'] . " and $filter",
+                false => $filter
+            };
 
         return $this;
     }
 
     public function getRecords(): LengthAwarePaginator|array
     {
-        if ((!empty($this->criteria))) {
-            $this->module .= "/search";
-            $this->filters = array_merge($this->filters, ["criteria" => $this->criteria]);
-        }
-
-        $response = Http::withHeaders($this->header)->get($this->config["url_api"] . $this->module, $this->filters);
+        $response = Http::withHeaders($this->header)->get($this->config["url_api"] . $this->module . "/search", $this->filters);
         $responseData = json_decode($response->body(), true);
 
         if (!isset($responseData["data"]) or (isset($responseData["status"]) and $responseData["status"] == "error"))
-            return [];
+            throw new HttpResponseException(new JsonResponse(['message' => 'Records not found.'], 404));
 
         $collection = collect($responseData["data"]);
 
@@ -100,10 +97,15 @@ class ZohoService
         ]);
     }
 
-    public function getRecord(string $moduleName, string $id): array
+    public function getRecord(string|int $id): array
     {
-        $response = Http::withHeaders($this->header)->get($this->config["url_api"] . $moduleName . "/" . $id);
-        return json_decode($response->body(), true) ?? [];
+        $response = Http::withHeaders($this->header)->get($this->config["url_api"] . $this->module . "/$id");
+        $responseData = json_decode($response->body(), true);
+
+        if (!isset($responseData["data"]) or (isset($responseData["status"]) and $responseData["status"] == "error"))
+            throw new HttpResponseException(new JsonResponse(['message' => 'Record not found.'], 404));
+
+        return $responseData["data"][0];
     }
 
     public function create(string $moduleName, array $body): array
@@ -112,6 +114,10 @@ class ZohoService
             "data" => [$body],
             "trigger" => ["approval", "workflow", "blueprint"],
         ]);
+
+        if (!isset($responseData["data"]) or (isset($responseData["status"]) and $responseData["status"] == "error"))
+            throw new HttpResponseException(new JsonResponse(['message' => 'Server error.'], 500));
+
         return json_decode($response->body(), true);
     }
 }

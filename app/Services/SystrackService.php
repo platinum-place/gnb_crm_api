@@ -10,8 +10,6 @@ class SystrackService
 {
     protected array $config = [], $header = [];
 
-    protected ApiModel $model;
-
     public function __construct()
     {
         $this->config = config('systrack');
@@ -23,8 +21,6 @@ class SystrackService
             "Pass" => $this->config["pass"],
             "Authorization" => $this->config["token"],
         ];
-
-        $this->model = new ApiModel();
     }
 
     public function list(int $id = null)
@@ -37,7 +33,7 @@ class SystrackService
         $responseJson = json_decode($response->body(), true) ?? [];
 
         if (!empty($responseJson["trackPoint"]))
-            return $this->model->fill($responseJson);
+            return $responseJson;
     }
 
     public function getLocation(int $id)

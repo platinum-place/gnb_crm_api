@@ -9,12 +9,9 @@ class NavixyService
 {
     protected array $config = [], $header = [];
 
-    protected ApiModel $model;
-
     public function __construct()
     {
         $this->config = config('navixy');
-        $this->model = new ApiModel();
     }
 
     public function list()
@@ -22,7 +19,7 @@ class NavixyService
         $response = Http::get($this->config["url"] . "list", [
             'hash' => $this->config["hash"],
         ]);
-        return json_decode($response->body(), true) ?? [];
+        return json_decode($response->body(), true);
     }
 
     public function find(int $id)
@@ -32,10 +29,10 @@ class NavixyService
             'tracker_id' => $id,
         ]);
 
-        $responseJson = json_decode($response->body(), true) ?? [];
+        $responseJson = json_decode($response->body(), true);
 
         if (!empty($responseJson["lat"]))
-            return $this->model->fill($responseJson);
+            return $responseJson;
     }
 
     public function getLocation(int $id)
