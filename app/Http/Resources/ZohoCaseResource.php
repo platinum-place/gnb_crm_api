@@ -17,9 +17,8 @@ class ZohoCaseResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return array_merge(
-            $this->case(),
-            ['gps_location' => $this->location()]
-        );
+        $case = $this->case();
+        $case['service_info']['location'] = $this->location();
+        return $case;
     }
 }

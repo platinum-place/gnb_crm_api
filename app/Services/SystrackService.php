@@ -15,24 +15,24 @@ class SystrackService
         $this->config = config('systrack');
 
         $this->header =  [
-            "Accept" => "application/json",
-            "App-id" => $this->config["app_id"],
-            "User" => $this->config["user"],
-            "Pass" => $this->config["pass"],
-            "Authorization" => $this->config["token"],
+            'Accept' => 'application/json',
+            'App-id' => $this->config['app_id'],
+            'User' => $this->config['user'],
+            'Pass' => $this->config['pass'],
+            'Authorization' => $this->config['token'],
         ];
     }
 
     public function list(int $id = null)
     {
-        $response = Http::withHeaders($this->header)->get($this->config["url"] . $id, [
+        $response = Http::withHeaders($this->header)->get($this->config['url'] . $id, [
             'FromIndex' => 0,
             'PageSize' => 1000,
         ]);
 
         $responseJson = json_decode($response->body(), true) ?? [];
 
-        if (!empty($responseJson["trackPoint"]))
+        if (!empty($responseJson['trackPoint']))
             return $responseJson;
     }
 
@@ -40,8 +40,8 @@ class SystrackService
     {
         $model = $this->list($id);
         return [
-            "lat" => $model->trackPoint["position"]["latitude"],
-            "lng" => $model->trackPoint["position"]["longitude"],
+            'lat' => $model['trackPoint']['position']['latitude'],
+            'lng' => $model['trackPoint']['position']['longitude'],
         ];
     }
 }

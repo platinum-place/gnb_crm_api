@@ -3,10 +3,10 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\shared\ZohoCaseResourceTrait;
 
-class ZohoCaseCollectionResource extends ResourceCollection
+class ZohoCaseCollectionResource extends JsonResource
 {
     use ZohoCaseResourceTrait;
 

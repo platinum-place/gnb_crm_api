@@ -44,8 +44,8 @@ class CasesController extends Controller
     {
         $case = $this->repository->getById($id);
 
-        if ($request->user()->can('belongTo', [$case]))
-            return response()->json(['message' => 'Case not found.']);
+        if ($request->user()->cannot('belongTo', $case))
+            abort(403, 'Unauthorized action.');
 
         return new ZohoCaseResource($case);
     }

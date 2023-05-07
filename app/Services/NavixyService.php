@@ -16,22 +16,22 @@ class NavixyService
 
     public function list()
     {
-        $response = Http::get($this->config["url"] . "list", [
-            'hash' => $this->config["hash"],
+        $response = Http::get($this->config['url'] . 'list', [
+            'hash' => $this->config['hash'],
         ]);
         return json_decode($response->body(), true);
     }
 
     public function find(int $id)
     {
-        $response = Http::get($this->config["url"] . "get_last_gps_point", [
-            'hash' => $this->config["hash"],
+        $response = Http::get($this->config['url'] . 'get_last_gps_point', [
+            'hash' => $this->config['hash'],
             'tracker_id' => $id,
         ]);
 
         $responseJson = json_decode($response->body(), true);
 
-        if (!empty($responseJson["lat"]))
+        if (!empty($responseJson['lat']))
             return $responseJson;
     }
 
@@ -39,8 +39,8 @@ class NavixyService
     {
         $model = $this->find($id);
         return [
-            "lat" => $model->lat,
-            "lng" => $model->lng,
+            'lat' => $model['lat'],
+            'lng' => $model['lng'],
         ];
     }
 }

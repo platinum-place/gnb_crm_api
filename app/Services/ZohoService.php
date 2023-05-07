@@ -10,17 +10,15 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ZohoService
 {
-    protected array $config = [], $header = [];
+    protected array
+        $config = [],
+        $header = [],
+        $params = ["page", "sort_by", "sort_order", "per_page"],
+        $operators = ["equals", "starts_with"], $filters = [
+            "per_page" => 10,
+        ];
 
-    protected string $module;
-
-    protected array $params = ["page", "sort_by", "sort_order", "per_page"];
-
-    protected array $operators = ["equals", "starts_with"];
-
-    protected array $filters = [
-        "per_page" => 10,
-    ];
+    protected string $module = "";
 
     public function __construct()
     {
@@ -45,7 +43,7 @@ class ZohoService
         return json_decode($response->body(), true);
     }
 
-    // total access scope ZohoCRM.settings.ALL, ZohoCRM.modules.ALL,
+    // total access scope: ZohoCRM.settings.ALL, ZohoCRM.modules.ALL,
     public function generatePersistentToken(string $code): array
     {
         $response = Http::asForm()->post($this->config["url_token"], [
@@ -78,7 +76,7 @@ class ZohoService
         return $this;
     }
 
-    public function getRecords(): LengthAwarePaginator|array
+    public function getRecords(): LengthAwarePaginator
     {
         $response = Http::withHeaders($this->header)->get($this->config["url_api"] . $this->module . "/search", $this->filters);
         $responseData = json_decode($response->body(), true);
@@ -86,7 +84,7 @@ class ZohoService
         if (!isset($responseData["data"]) or (isset($responseData["status"]) and $responseData["status"] == "error"))
             throw new HttpResponseException(new JsonResponse(['message' => 'Records not found.'], 404));
 
-        $collection = collect($responseData["data"]);
+        $collection = collect($responseData["data"])->mapInto(ApiModel::class);
 
         return new LengthAwarePaginator($collection, $responseData["info"]["count"], $responseData["info"]["per_page"], $responseData["info"]["page"], [
             'path' => LengthAwarePaginator::resolveCurrentPath(),
@@ -97,7 +95,7 @@ class ZohoService
         ]);
     }
 
-    public function getRecord(string|int $id): array
+    public function getRecord(string|int $id): object
     {
         $response = Http::withHeaders($this->header)->get($this->config["url_api"] . $this->module . "/$id");
         $responseData = json_decode($response->body(), true);
@@ -105,19 +103,20 @@ class ZohoService
         if (!isset($responseData["data"]) or (isset($responseData["status"]) and $responseData["status"] == "error"))
             throw new HttpResponseException(new JsonResponse(['message' => 'Record not found.'], 404));
 
-        return $responseData["data"][0];
+        return new ApiModel($responseData["data"][0]);
     }
 
-    public function create(string $moduleName, array $body): array
+    public function create(string $moduleName, array $body): object
     {
         $response = Http::withHeaders($this->header)->post($this->config["url_api"] . $moduleName, [
             "data" => [$body],
             "trigger" => ["approval", "workflow", "blueprint"],
         ]);
+        $responseData = json_decode($response->body(), true);
 
         if (!isset($responseData["data"]) or (isset($responseData["status"]) and $responseData["status"] == "error"))
             throw new HttpResponseException(new JsonResponse(['message' => 'Server error.'], 500));
 
-        return json_decode($response->body(), true);
+        return new ApiModel($responseData["data"][0]["details"]["id"]);
     }
 }

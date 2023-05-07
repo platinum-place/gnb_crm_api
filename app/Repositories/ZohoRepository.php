@@ -30,15 +30,14 @@ class ZohoRepository implements IApiRepository
 
     public function create(array $attributes)
     {
-        $attributes = array_merge($attributes, [
+        $case = Zoho::prepare($this->module)->create(array_merge($attributes, [
             "Status" => "Ubicado",
             "Caso_especial" => true,
             "Aseguradora" => auth()->user()->account_name,
             "Related_To" => auth()->user()->contact_name_id,
             "Subject" => "Asistencia remota",
             "Case_Origin" => "API",
-        ]);
-        $case = Zoho::prepare($this->module)->create($attributes);
-        return $this->getById($case["data"][0]["details"]["id"]);
+        ]));
+        return $this->getById($case->id);
     }
 }
