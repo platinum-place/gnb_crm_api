@@ -4,11 +4,12 @@ namespace App\Http\Resources\shared;
 
 use App\Facades\Navixy;
 use App\Facades\Systrack;
+use App\Models\ZohoProduct;
 use App\Repositories\ZohoRepository;
 
 trait ZohoCaseResourceTrait
 {
-    public function case()
+    public function case ()
     {
         return [
             'id' => $this->id,
@@ -66,9 +67,9 @@ trait ZohoCaseResourceTrait
     public function location()
     {
         if (!$this->Product_Name)
-            return null;
+            return;
 
-        $service = (new ZohoRepository('Products'))->getById($this->Product_Name->id);
+        $service = (new ZohoProduct())->newQuery()->find($this->Product_Name->id);
 
         if ($service->Plataforma_API)
             return match ($service->Plataforma_API) {

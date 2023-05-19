@@ -16,11 +16,10 @@ abstract class ApiModel
 
     public function fill(array $attributes)
     {
-        if (!empty($this->fillable))
-            $attributes = array_intersect_key($attributes, array_flip($this->fillable));
+        $attributes = array_intersect_key($attributes, array_flip($this->fillable));
 
         foreach ($attributes as $key => $value)
-            if (empty($this->fillable) or $this->isFillable($key))
+            if ($this->isFillable($key))
                 $this->setAttribute($key, $value);
 
         return $this;

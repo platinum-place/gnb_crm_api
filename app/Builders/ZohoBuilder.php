@@ -9,9 +9,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class ZohoBuilder
 {
     protected array
-        $params = ["page", "sort_by", "sort_order", "per_page"],
-        $operators = ["equals", "starts_with"],
-        $filters = [];
+    $params = ["page", "sort_by", "sort_order", "per_page"],
+    $operators = ["equals", "starts_with"],
+    $filters = [];
 
     protected string $module = "";
 
@@ -33,7 +33,7 @@ class ZohoBuilder
         if (!in_array($field, $this->params)) {
             $filter = "(($field:$operator:$value))";
 
-            $this->filters['criteria'] = match (isset($this->filters['criteria'])) {
+            $this->filters['criteria'] = match (isset ($this->filters['criteria'])) {
                 true => $this->filters['criteria'] . " and $filter",
                 false => $filter
             };
@@ -64,13 +64,20 @@ class ZohoBuilder
             'path' => LengthAwarePaginator::resolveCurrentPath(),
             'query' => [
                 'sort_by' => $data["info"]["sort_by"],
-                'sort_order' =>  $data["info"]["sort_order"],
+                'sort_order' => $data["info"]["sort_order"],
             ]
         ]);
     }
 
-    public function find()
+    public function find(string|int $id)
     {
-        //$data= Zoho::getRecord
+        $data = Zoho::getRecord($this->module, $id);
+        return $this->model->fill($data);
+    }
+
+    public function create(array $attributes)
+    {
+        $id = Zoho::create($this->module, $attributes);
+        return $this->find($id);
     }
 }

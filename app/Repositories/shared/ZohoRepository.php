@@ -2,26 +2,62 @@
 
 namespace App\Repositories\shared;
 
+use App\Builders\ZohoBuilder;
 use App\Facades\Zoho;
 use App\Repositories\shared\IApiRepository;
+use App\Models\shared\ZohoModel;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 abstract class ZohoRepository implements IApiRepository
 {
+    protected ZohoModel $model;
+
+    public function __construct(ZohoModel $model)
+    {
+        $this->model = $model;
+    }
+
+    private function buildQuery(): ZohoBuilder
+    {
+        return $this->model->newQuery();
+    }
+
+    private function FilterList(ZohoBuilder $list, array $params): ZohoBuilder
+    {
+        foreach ($params as $key => $value)
+            $list->where($key, $value);
+
+        return $list;
+    }
+
+    private function paginate(ZohoBuilder $list, array $params): LengthAwarePaginator
+    {
+        return $list->get(
+            per_page: $params['per_page'] ?? 10, //TODO: hacer constante de limite de paginacion
+            page: $params['page'] ?? null,
+            sort_by: $params['sort_by'] ?? null,
+            sort_order: $params['sort_order'] ?? null
+        );
+    }
+
+    public function list(array $params)
+    {
+        $list = $this->buildQuery();
+
+        $list = $this->FilterList($list, $params);
+
+        $list = $this->paginate($list, $params);
+
+        return $list;
+    }
+
     public function getById(string|int $id)
     {
-        return Zoho::prepare($this->module)->getRecord($id);
+        return $this->buildQuery()->find($id);
     }
 
     public function create(array $attributes)
     {
-        $case = Zoho::prepare($this->module)->create(array_merge($attributes, [
-            "Status" => "Ubicado",
-            "Caso_especial" => true,
-            "Aseguradora" => auth()->user()->account_name,
-            "Related_To" => auth()->user()->contact_name_id,
-            "Subject" => "Asistencia remota",
-            "Case_Origin" => "API",
-        ]));
-        return $this->getById($case->id);
+        return $this->buildQuery()->create($attributes);
     }
 }

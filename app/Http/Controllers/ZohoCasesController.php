@@ -44,7 +44,7 @@ class ZohoCasesController extends Controller
         $case = $this->repository->getById($id);
 
         if ($request->user()->cannot('belongTo', $case))
-            abort(403, 'Unauthorized action.');
+            abort(403, 'Unauthorized action.'); //TODO: usar clases de excepcion
 
         return new ZohoCaseResource($case);
     }

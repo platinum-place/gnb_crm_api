@@ -10,8 +10,8 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 class ZohoService
 {
     protected array
-        $config = [],
-        $header = [];
+    $config = [],
+    $header = [];
 
     public function __construct()
     {
@@ -49,7 +49,7 @@ class ZohoService
         $responseData = json_decode($response->body(), true);
 
         if (!isset($responseData["data"]) or (isset($responseData["status"]) and $responseData["status"] == "error"))
-            throw new HttpResponseException(new JsonResponse(['message' => 'Records not found.'], 404));
+            throw new HttpResponseException(new JsonResponse(['message' => 'Records not found.'], 404)); //TODO: usar clase de excepcion propia
 
         return $responseData;
     }
@@ -60,9 +60,9 @@ class ZohoService
         $responseData = json_decode($response->body(), true);
 
         if (!isset($responseData["data"]) or (isset($responseData["status"]) and $responseData["status"] == "error"))
-            throw new HttpResponseException(new JsonResponse(['message' => 'Record not found.'], 404));
+            throw new HttpResponseException(new JsonResponse(['message' => 'Record not found.'], 404)); //TODO: usar clase de excepcion propia
 
-        return new ApiModel($responseData["data"][0]);
+        return $responseData["data"][0];
     }
 
     public function create(string $moduleName, array $body): object
@@ -74,8 +74,8 @@ class ZohoService
         $responseData = json_decode($response->body(), true);
 
         if (!isset($responseData["data"]) or (isset($responseData["status"]) and $responseData["status"] == "error"))
-            throw new HttpResponseException(new JsonResponse(['message' => 'Server error.'], 500));
+            throw new HttpResponseException(new JsonResponse(['message' => 'Server error.'], 500)); //TODO: usar clase de excepcion propia
 
-        return new ApiModel($responseData["data"][0]["details"]["id"]);
+        return $responseData["data"][0]["details"]["id"];
     }
 }
