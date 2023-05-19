@@ -1,28 +1,12 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\shared;
 
 use App\Facades\Zoho;
 use App\Repositories\shared\IApiRepository;
 
-class ZohoRepository implements IApiRepository
+abstract class ZohoRepository implements IApiRepository
 {
-    protected string $module;
-
-    public function __construct(string $module)
-    {
-        $this->module = $module;
-    }
-
-    public function list(array $params)
-    {
-        $query = Zoho::prepare($this->module);
-        foreach ($params as $key => $value) {
-            $query->search($key, $value);
-        }
-        return $query->getRecords();
-    }
-
     public function getById(string|int $id)
     {
         return Zoho::prepare($this->module)->getRecord($id);

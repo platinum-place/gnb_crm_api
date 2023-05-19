@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CaseRequest;
 use App\Http\Requests\ZohoCaseCreateRequest;
 use App\Http\Requests\ZohoCaseRequest;
 use App\Http\Resources\ZohoCaseCollectionResource;
 use App\Http\Resources\ZohoCaseResource;
-use App\Repositories\ZohoRepository;
+use App\Repositories\ZohoCaseRepository;
 use Illuminate\Http\Request;
 
-class CasesController extends Controller
+class ZohoCasesController extends Controller
 {
-    protected ZohoRepository $repository;
+    protected ZohoCaseRepository $repository;
 
-    public function __construct()
+    public function __construct(ZohoCaseRepository $repository)
     {
-        $this->repository = new ZohoRepository('Cases');
+        $this->repository = $repository;
     }
 
     /**
