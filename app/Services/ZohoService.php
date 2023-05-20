@@ -53,7 +53,7 @@ class ZohoService
         return $responseData;
     }
 
-    public function getRecord(string $moduleName, int $id): array
+    public function getRecord(string $moduleName, int|string $id): array
     {
         $response = Http::withHeaders($this->header)->get($this->config["url_api"] . $moduleName . "/$id");
         $responseData = json_decode($response->body(), true);
@@ -64,7 +64,7 @@ class ZohoService
         return $responseData["data"][0];
     }
 
-    public function create(string $moduleName, array $body): int
+    public function create(string $moduleName, array $body): int|string
     {
         $response = Http::withHeaders($this->header)->post($this->config["url_api"] . $moduleName, [
             "data" => [$body],

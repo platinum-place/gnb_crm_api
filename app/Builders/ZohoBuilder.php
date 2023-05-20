@@ -69,7 +69,7 @@ class ZohoBuilder
         ]);
     }
 
-    public function find(int $id)
+    public function find(int|string $id)
     {
         $data = Zoho::getRecord($this->module, $id);
         return $this->model->fill($data);

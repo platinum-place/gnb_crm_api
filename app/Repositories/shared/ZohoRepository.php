@@ -3,7 +3,6 @@
 namespace App\Repositories\shared;
 
 use App\Builders\ZohoBuilder;
-use App\Facades\Zoho;
 use App\Repositories\shared\IApiRepository;
 use App\Models\shared\ZohoModel;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -51,7 +50,7 @@ abstract class ZohoRepository implements IApiRepository
         return $list;
     }
 
-    public function getById(int $id): ZohoModel
+    public function getById(int|string $id): ZohoModel
     {
         return $this->buildQuery()->find($id);
     }

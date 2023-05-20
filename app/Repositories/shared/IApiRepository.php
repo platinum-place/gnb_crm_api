@@ -6,7 +6,7 @@ interface IApiRepository
 {
     public function list(array $params);
 
-    public function getById(int $id);
+    public function getById(int|string $id);
 
     public function create(array $data);
 }
