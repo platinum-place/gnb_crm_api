@@ -12,7 +12,7 @@ class ZohoCaseRepository extends ZohoRepository
         parent::__construct($model);
     }
 
-    public function create(array $attributes)
+    public function create(array $attributes): ZohoCase
     {
         $case = array_merge($attributes, [
             "Status" => "Ubicado",

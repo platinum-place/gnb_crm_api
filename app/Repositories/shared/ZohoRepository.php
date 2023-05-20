@@ -40,7 +40,7 @@ abstract class ZohoRepository implements IApiRepository
         );
     }
 
-    public function list(array $params)
+    public function list(array $params): LengthAwarePaginator
     {
         $list = $this->buildQuery();
 
@@ -51,12 +51,12 @@ abstract class ZohoRepository implements IApiRepository
         return $list;
     }
 
-    public function getById(string|int $id)
+    public function getById(int $id): ZohoModel
     {
         return $this->buildQuery()->find($id);
     }
 
-    public function create(array $attributes)
+    public function create(array $attributes): ZohoModel
     {
         return $this->buildQuery()->create($attributes);
     }

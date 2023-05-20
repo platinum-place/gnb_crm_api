@@ -2,16 +2,14 @@
 
 namespace App\Services;
 
-use App\Models\shared\ApiModel;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ZohoService
 {
     protected array
-    $config = [],
-    $header = [];
+        $config = [],
+        $header = [];
 
     public function __construct()
     {
@@ -49,23 +47,24 @@ class ZohoService
         $responseData = json_decode($response->body(), true);
 
         if (!isset($responseData["data"]) or (isset($responseData["status"]) and $responseData["status"] == "error"))
-            throw new HttpResponseException(new JsonResponse(['message' => 'Records not found.'], 404)); //TODO: usar clase de excepcion propia
+            throw new \App\Exceptions\ZohoHttpException($responseData, 'Records not found.');
+
 
         return $responseData;
     }
 
-    public function getRecord(string $moduleName, string|int $id): object
+    public function getRecord(string $moduleName, int $id): array
     {
         $response = Http::withHeaders($this->header)->get($this->config["url_api"] . $moduleName . "/$id");
         $responseData = json_decode($response->body(), true);
 
         if (!isset($responseData["data"]) or (isset($responseData["status"]) and $responseData["status"] == "error"))
-            throw new HttpResponseException(new JsonResponse(['message' => 'Record not found.'], 404)); //TODO: usar clase de excepcion propia
+            throw new \App\Exceptions\ZohoHttpException($responseData, 'Record not found.');
 
         return $responseData["data"][0];
     }
 
-    public function create(string $moduleName, array $body): object
+    public function create(string $moduleName, array $body): int
     {
         $response = Http::withHeaders($this->header)->post($this->config["url_api"] . $moduleName, [
             "data" => [$body],
@@ -74,7 +73,7 @@ class ZohoService
         $responseData = json_decode($response->body(), true);
 
         if (!isset($responseData["data"]) or (isset($responseData["status"]) and $responseData["status"] == "error"))
-            throw new HttpResponseException(new JsonResponse(['message' => 'Server error.'], 500)); //TODO: usar clase de excepcion propia
+            throw new \App\Exceptions\ZohoHttpException($responseData, 'Server error.');
 
         return $responseData["data"][0]["details"]["id"];
     }

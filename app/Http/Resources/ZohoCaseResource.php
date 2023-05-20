@@ -18,7 +18,7 @@ class ZohoCaseResource extends JsonResource
     public function toArray(Request $request): array
     {
         $case = $this->case();
-        $case['service_info']['location'] = $this->location();
+        $case['service_info']['location'] = $this->getLocation();
         return $case;
     }
 }

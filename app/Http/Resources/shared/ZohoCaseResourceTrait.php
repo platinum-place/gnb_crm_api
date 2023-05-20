@@ -2,11 +2,6 @@
 
 namespace App\Http\Resources\shared;
 
-use App\Facades\Navixy;
-use App\Facades\Systrack;
-use App\Models\ZohoProduct;
-use App\Repositories\ZohoRepository;
-
 trait ZohoCaseResourceTrait
 {
     public function case ()
@@ -17,7 +12,7 @@ trait ZohoCaseResourceTrait
                 'company' => $this->Account_Name?->name,
                 'case_number' => $this->TUA,
                 'created_date' => $this->Fecha,
-                'case_status' => $this->isFinished(),
+                'case_status' => $this->getStatus(),
             ],
             'client' => [
                 'name' => $this->Solicitante,
@@ -49,32 +44,5 @@ trait ZohoCaseResourceTrait
                 'end' => $this->Cierre,
             ],
         ];
-    }
-
-    public function isFinished()
-    {
-        return in_array(
-            $this->Status,
-            [
-                'Medio servicio',
-                'Cancelado',
-                'Contacto',
-                'Cerrado',
-            ]
-        ) ? 'Finished' : 'In progress';
-    }
-
-    public function location()
-    {
-        if (!$this->Product_Name)
-            return;
-
-        $service = (new ZohoProduct())->newQuery()->find($this->Product_Name->id);
-
-        if ($service->Plataforma_API)
-            return match ($service->Plataforma_API) {
-                'Systrack' => Systrack::getLocation($service->Clave_API),
-                'Navixy' => Navixy::getLocation($service->Clave_API),
-            };
     }
 }
