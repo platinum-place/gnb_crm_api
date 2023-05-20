@@ -1,5 +1,4 @@
-# laravel-zoho-crm-api
-## _Laravel package to handle zoho crm api_
+# _Handle zoho crm api_
 
 Using Zoho CRM API, not the SDK. The idea consists of a facade that is in charge of encapsulating the most relevant methods of the api and returning them as json, just like the documentation, simplifying the way of using them.
 
