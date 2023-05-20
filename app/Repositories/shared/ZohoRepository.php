@@ -3,11 +3,10 @@
 namespace App\Repositories\shared;
 
 use App\Builders\ZohoBuilder;
-use App\Repositories\shared\IApiRepository;
 use App\Models\shared\ZohoModel;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-abstract class ZohoRepository implements IApiRepository
+abstract class ZohoRepository extends Repository
 {
     protected ZohoModel $model;
 
@@ -32,7 +31,7 @@ abstract class ZohoRepository implements IApiRepository
     private function paginate(ZohoBuilder $list, array $params): LengthAwarePaginator
     {
         return $list->get(
-            per_page: $params['per_page'] ?? 10, //TODO: hacer constante de limite de paginacion
+            per_page: $params['per_page'] ?? self::paginate,
             page: $params['page'] ?? null,
             sort_by: $params['sort_by'] ?? null,
             sort_order: $params['sort_order'] ?? null
