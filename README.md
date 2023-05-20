@@ -1,40 +1,7 @@
 # laravel-zoho-crm-api
 ## _Laravel package to handle zoho crm api_
 
-This is a package to make it easier to use the zoho crm API, not the SDK. The idea consists of a facade that is in charge of encapsulating the most relevant methods of the api and returning them as json, just like the documentation, simplifying the way of using them.
-
-## Installation
-
-You need to run the following command for install the package:
-
-```sh
-composer require platinum-place/laravel-zoho-crm-api
-```
-
-To charge service provider:
-
-```sh
-'providers' => [
-    // ...
-    PlatinumPlace\LaravelZohoCrmApi\ZohoServiceProvider::class,
-],
-
-```
-
-To load the facades:
-
-```sh
-    'aliases' => Facade::defaultAliases()->merge([
-        //...
-        'Zoho' => PlatinumPlace\LaravelZohoCrmApi\Facades\Zoho::class,
-    ])->toArray(),
-```
-
-Run the following command for publish the configuration file:
-
-```sh
-php artisan vendor:publish --provider="PlatinumPlace\LaravelZohoCrmApi\ZohoServiceProvider" --tag="config"
-```
+Using Zoho CRM API, not the SDK. The idea consists of a facade that is in charge of encapsulating the most relevant methods of the api and returning them as json, just like the documentation, simplifying the way of using them.
 
 ## Enviroment
 
