@@ -28,6 +28,7 @@ abstract class ZohoRepository extends Repository
         return $list;
     }
 
+    //private function paginate(ZohoBuilder $list, int $per_page = null, int $page = null, string $sort_by = null, string $sort_order = null): LengthAwarePaginator
     private function paginate(ZohoBuilder $list, array $params): LengthAwarePaginator
     {
         return $list->get(
