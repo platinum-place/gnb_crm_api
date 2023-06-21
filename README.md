@@ -1,78 +1,66 @@
-# _Handle zoho crm api_
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-Using Zoho CRM API, not the SDK. The idea consists of a facade that is in charge of encapsulating the most relevant methods of the api and returning them as json, just like the documentation, simplifying the way of using them.
+<p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
-## Enviroment
+## About Laravel
 
-It is necessary to put the following lines in the .env file to load the credentials of the api, for more references to generate the credentials follow the official documentation of [Zoho CRM API](https://www.zoho.com/crm/developer/docs/api/v3/access-refresh.html)
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-```sh
-ZOHO_URL_TOKEN="https://accounts.zoho.com/oauth/v2/token"
-ZOHO_URL_API="https://www.zohoapis.com/crm/v2/"
-ZOHO_REDIRECT_URI=""
-ZOHO_CLIENT_ID=""
-ZOHO_CLIENT_SECRET=""
-ZOHO_REFRESH_TOKEN=""
-```
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-## Service methods
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-### generateToken
+## Learning Laravel
 
-Generate the access token. It is the token for which it must be placed in the header of any request made to the api. The service class automatically generates a token and adds it to each method.
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-Output:
+You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-```sh
-{
-    "access_token": "{access_token}",
-    "api_domain": "https://www.zohoapis.com",
-    "token_type": "Bearer",
-    "expires_in": 3600
-}
-```
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-### generatePersistentToken
+## Laravel Sponsors
 
-Generate the persistent token. Once generated, it must be placed in the .evn variable ZOHO_REFRESH_TOKEN to be used to automatically create temporary tokens.
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
 
-| Input | Type | Description |
-| ------ | ------ | ------ |
-| $code | string | It is the temporary code that the zoho developer console generates when registering a valid scope, for example: ZohoCRM.settings.ALL, ZohoCRM.modules.ALL |
+### Premium Partners
 
-Output:
+- **[Vehikl](https://vehikl.com/)**
+- **[Tighten Co.](https://tighten.co)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Cubet Techno Labs](https://cubettech.com)**
+- **[Cyber-Duck](https://cyber-duck.co.uk)**
+- **[Many](https://www.many.co.uk)**
+- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
+- **[DevSquad](https://devsquad.com)**
+- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
+- **[OP.GG](https://op.gg)**
+- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
+- **[Lendio](https://lendio.com)**
 
-```sh
-{
-    "access_token": "{access_token}",
-    "refresh_token": "{refresh_token}",
-    "api_domain": "https://www.zohoapis.com",
-    "token_type": "Bearer",
-    "expires_in": 3600
-}
-```
+## Contributing
 
-### getRecords
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-Get all paginates records from one module.
+## Code of Conduct
 
-| Input | Type | Description |
-| ------ | ------ | ------ |
-| $moduleName | string | Api module name in CRM |
-| $body | array | Fields with api name and values to filter list. Example: sort_by = ["id", "Created_Time", "Modified_Time"], int $page = 1, int $per_page = 10, ... |
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-Output:
+## Security Vulnerabilities
 
-```sh
-{
-    "data": [],
-    "info": {
-        "per_page": 200,
-        "count": 200,
-        "page": 1,
-        "sort_by": "id",
-        "sort_order": "desc",
-        "more_records": true
-    }
-}
-```
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+
+## License
+
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

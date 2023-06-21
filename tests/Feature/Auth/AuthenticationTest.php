@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\User;
+use App\Models\Users\User;
 
 test('users can authenticate using the login screen', function () {
     $user = User::factory()->create();

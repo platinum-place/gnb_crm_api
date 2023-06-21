@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('contact_name_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
