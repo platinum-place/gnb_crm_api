@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Resources\Users\UserResource;
+use App\Http\Resources\UserResource;
 use App\Http\Responses\ResponseJson;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,7 +22,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        /** @var \App\Models\Users\User */
+        /** @var \App\Models\User */
         $user = Auth::user();
 
         $access_token = $user->createToken(Str::random(32))->plainTextToken;
