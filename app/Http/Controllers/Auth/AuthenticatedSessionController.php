@@ -41,6 +41,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return ResponseJson::message('The user has been logged out');
+        return ResponseJson::message(__('The user has been logged out.'));
     }
 }

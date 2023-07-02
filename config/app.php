@@ -185,6 +185,9 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'Paginator' => App\Facades\Paginator::class,
+        'Zoho' => App\Facades\Zoho::class,
+        'Navixy' => App\Facades\Navixy::class,
+        'Systrack' => App\Facades\Systrack::class,
     ])->toArray(),
 
 ];

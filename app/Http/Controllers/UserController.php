@@ -17,9 +17,9 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users = Paginator::setModel(User::class)->filter($request->all())->get();
+        $residents = Paginator::setModel(User::class)->filter($request->all())->get();
 
-        return UserResource::collection($users);
+        return UserResource::collection($residents);
     }
 
     /**
@@ -44,6 +44,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         $user->update($request->all());
+
         return new UserResource($user);
     }
 
@@ -53,6 +54,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
+
         return HttpResponse::delete();
     }
 }

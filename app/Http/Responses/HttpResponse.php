@@ -8,6 +8,6 @@ class HttpResponse extends JsonResponse
 {
     public static function delete()
     {
-        return new static(['message' => 'Resource deleted'], 222);
+        return new static(['message' => __('Resource deleted.')], 222);
     }
 }
