@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\CaseController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ZohoCaseController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +21,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     ]);
 
     Route::middleware(['zoho.user.filter'])->group(function () {
-        Route::apiResource('cases', ZohoCaseController::class);
+        Route::apiResources([
+            'cases', CaseController::class,
+        ]);
     });
 });

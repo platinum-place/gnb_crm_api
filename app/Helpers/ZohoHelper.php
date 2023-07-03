@@ -114,7 +114,7 @@ class ZohoHelper
         return $responseData['data'][0];
     }
 
-    public function create(string $moduleName, array $body): int|string
+    public function createRecord(string $moduleName, array $body): int|string
     {
         $response = Http::withHeaders($this->header)->post($this->config['url_api'].$moduleName, [
             'data' => [$body],

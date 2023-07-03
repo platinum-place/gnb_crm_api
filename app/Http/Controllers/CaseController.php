@@ -2,22 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Facades\Zoho;
-use App\Http\Requests\StoreZohoCaseRequest;
-use App\Http\Requests\ZohoCaseRequest;
 use App\Http\Resources\ZohoCaseCollectionResource;
 use App\Http\Resources\ZohoCaseResource;
+use App\Repositories\ZohoCaseRepository;
 use Exception;
 use Illuminate\Http\Request;
 
-class ZohoCaseController extends Controller
+class CaseController extends Controller
 {
+    protected ZohoCaseRepository $repository;
+
+    public function __construct(ZohoCaseRepository $repository)
+    {
+        $this->repository = $repository;
+    }
+
     /**
      * Display a listing of the resource.
      */
-    public function index(ZohoCaseRequest $request)
+    public function index(Request $request)
     {
-        $cases = Zoho::getRecords('cases', $request->all());
+        $cases = $this->repository->list($request->all());
 
         return ZohoCaseCollectionResource::collection($cases);
     }
@@ -25,20 +30,11 @@ class ZohoCaseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreZohoCaseRequest $request)
+    public function store(Request $request)
     {
-        $request->merge([
-            'Status' => 'Ubicado',
-            'Caso_especial' => true,
-            'Aseguradora' => auth()->user()->account_name,
-            'Related_To' => auth()->user()->contact_name_id,
-            'Subject' => 'Asistencia remota',
-            'Case_Origin' => 'API',
-        ]);
+        $case = $this->repository->create($request->all());
 
-        $id = Zoho::getRecords('cases', $request->all());
-
-        return $this->show($id);
+        return new ZohoCaseResource($case);
     }
 
     /**
@@ -46,7 +42,7 @@ class ZohoCaseController extends Controller
      */
     public function show(string $id)
     {
-        $case = Zoho::getRecord('cases', $id);
+        $case = $this->repository->find($id);
 
         if (auth()->user()->account_name_id != $case['Account_Name']['id']) {
             throw new Exception('Unauthorized action.', 403);
