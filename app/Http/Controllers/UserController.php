@@ -2,24 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Facades\Paginator;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Responses\HttpResponse;
 use App\Models\User;
+use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    protected UserRepository $repository;
+
+    public function __construct(UserRepository $repository)
+    {
+        $this->repository = $repository;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $residents = Paginator::setModel(User::class)->filter($request->all())->get();
+        $users = $this->repository->list($request->all());
 
-        return UserResource::collection($residents);
+        return UserResource::collection($users);
     }
 
     /**

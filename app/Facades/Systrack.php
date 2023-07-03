@@ -8,6 +8,6 @@ class Systrack extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'Systrack';
+        return 'systrack';
     }
 }

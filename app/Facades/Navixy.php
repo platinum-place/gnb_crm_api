@@ -8,6 +8,6 @@ class Navixy extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'Navixy';
+        return 'navixy';
     }
 }

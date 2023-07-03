@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Helpers\PaginatorHelper;
 use App\Helpers\ZohoHelper;
 use App\Services\NavixyHelper;
 use App\Services\SystrackHelper;
@@ -15,19 +14,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind('paginator', function () {
-            return new PaginatorHelper();
-        });
-
-        $this->app->bind('Zoho', function () {
+        $this->app->bind('zoho', function () {
             return new ZohoHelper();
         });
 
-        $this->app->bind('Systrack', function () {
+        $this->app->bind('systrack', function () {
             return new SystrackHelper();
         });
 
-        $this->app->bind('Navixy', function () {
+        $this->app->bind('navixy', function () {
             return new NavixyHelper();
         });
     }

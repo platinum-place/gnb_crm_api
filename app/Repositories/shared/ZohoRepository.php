@@ -5,7 +5,7 @@ namespace App\Repositories\shared;
 use App\Facades\Zoho;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class ZohoRepository implements IApiRepository
+abstract class ZohoRepository implements IApiRepository
 {
     protected string $module;
 

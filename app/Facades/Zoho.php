@@ -8,6 +8,6 @@ class Zoho extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'Zoho';
+        return 'zoho';
     }
 }
