@@ -22,7 +22,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::middleware(['zoho.user.filter'])->group(function () {
         Route::apiResources([
-            'cases', CaseController::class,
+            'cases' => CaseController::class,
         ]);
     });
 });

@@ -66,4 +66,24 @@ abstract class Repository implements IRepository
             isset($params['page']) ? $params['page'] : 1,
         );
     }
+
+    public function create(array $params): Model
+    {
+        return $this->model->create($params);
+    }
+
+    public function find(string $id): Model
+    {
+        return $this->model->find($id);
+    }
+
+    public function update(string $id, array $params): Model
+    {
+        return $this->model->find($id)->update($params);
+    }
+
+    public function delete(string $id): void
+    {
+        $this->model->find($id)->delete();
+    }
 }

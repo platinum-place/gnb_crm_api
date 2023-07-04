@@ -6,7 +6,6 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Responses\HttpResponse;
-use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 
@@ -34,34 +33,34 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        return new UserResource(User::create($request->all()));
+        $user = $this->repository->create($request->all());
+        return new UserResource($user);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show(string $id)
     {
+        $user = $this->repository->find($id);
         return new UserResource($user);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $request, string $id)
     {
-        $user->update($request->all());
-
+        $user = $this->repository->update($id, $request->all());
         return new UserResource($user);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(string $id)
     {
-        $user->delete();
-
+        $this->repository->delete($id);
         return HttpResponse::delete();
     }
 }
