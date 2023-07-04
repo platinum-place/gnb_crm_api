@@ -34,6 +34,7 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         $user = $this->repository->create($request->all());
+
         return new UserResource($user);
     }
 
@@ -43,6 +44,7 @@ class UserController extends Controller
     public function show(string $id)
     {
         $user = $this->repository->find($id);
+
         return new UserResource($user);
     }
 
@@ -52,6 +54,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, string $id)
     {
         $user = $this->repository->update($id, $request->all());
+
         return new UserResource($user);
     }
 
@@ -61,6 +64,7 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         $this->repository->delete($id);
+
         return HttpResponse::delete();
     }
 }
