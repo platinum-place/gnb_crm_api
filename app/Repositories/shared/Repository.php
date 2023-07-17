@@ -19,26 +19,12 @@ abstract class Repository implements IRepository
     {
         $builder = $this->model->newQuery();
 
-        $columns = $this->filterColumns($params);
-        $params = array_intersect_key($params, array_flip($columns));
-
-        $builder = $this->filterBuilder($builder, $params);
-
-        return $this->paginateBuilder($builder, $params);
-    }
-
-    private function filterColumns(array $params)
-    {
         /**
          * Filter only column of the model table
          */
-        $columns = $this->model->getConnection()->getSchemaBuilder()->getColumnListing($this->model->getTable());
+        $columns = array_intersect_key($params, array_flip($this->model->getConnection()->getSchemaBuilder()->getColumnListing($this->model->getTable())));
+        $params = array_intersect_key($params, array_flip($columns));
 
-        return array_intersect_key($params, array_flip($columns));
-    }
-
-    private function filterBuilder(Builder $builder, array $params = [])
-    {
         foreach ($params as $key => $value) {
             if (is_array($value)) {
                 $builder->orWhere(function ($query) use ($key, $value) {
@@ -51,19 +37,14 @@ abstract class Repository implements IRepository
             }
         }
 
-        return $builder;
-    }
-
-    private function paginateBuilder(Builder $builder, array $params = [])
-    {
         $builder->orderBy(
             isset($params['order_by']) ? $params['order_by'] : 'id',
             isset($params['sort_by']) ? $params['sort_by'] : 'DESC',
         );
 
         return $builder->paginate(
-            isset($params['per_page']) ? $params['per_page'] : 10,
-            isset($params['page']) ? $params['page'] : 1,
+            perPage: isset($params['per_page']) ? $params['per_page'] : 10,
+            page: isset($params['page']) ? $params['page'] : 1,
         );
     }
 
