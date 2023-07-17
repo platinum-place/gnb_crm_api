@@ -22,8 +22,7 @@ abstract class Repository implements IRepository
         /**
          * Filter only column of the model table
          */
-        $columns = array_intersect_key($params, array_flip($this->model->getConnection()->getSchemaBuilder()->getColumnListing($this->model->getTable())));
-        $fields = array_intersect_key($params, array_flip($columns));
+        $fields = array_intersect_key($params, array_flip($this->model->getConnection()->getSchemaBuilder()->getColumnListing($this->model->getTable())));
 
         foreach ($fields as $key => $value) {
             if (is_array($value)) {
