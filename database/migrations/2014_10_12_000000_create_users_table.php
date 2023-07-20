@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('account_name')->nullable();
             $table->string('contact_name_id')->nullable();
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

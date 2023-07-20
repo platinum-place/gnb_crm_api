@@ -9,14 +9,11 @@ use Illuminate\Support\Facades\Http;
 
 class ZohoHelper
 {
-    protected array
-        $config = [];
+    protected array $config = [];
 
-    protected array
-        $header = [];
+    protected array $header = [];
 
-    protected array
-        $params = ['order_by', 'sort_by', 'per_page', 'page'];
+    protected array $params = ['order_by', 'sort_by', 'per_page', 'page'];
 
     public function __construct()
     {

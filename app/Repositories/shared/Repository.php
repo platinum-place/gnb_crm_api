@@ -2,7 +2,6 @@
 
 namespace App\Repositories\shared;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -22,7 +21,7 @@ abstract class Repository implements IRepository
         /**
          * Filter only column of the model table
          */
-        $fields = array_intersect_key($params, array_flip($this->model->getConnection()->getSchemaBuilder()->getColumnListing($this->model->getTable())));
+        $fields = array_intersect_key($params, array_flip($this->model->getColumnNames()));
 
         foreach ($fields as $key => $value) {
             if (is_array($value)) {

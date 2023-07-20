@@ -23,9 +23,9 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users = $this->repository->list($request->all());
+        $models = $this->repository->list($request->all());
 
-        return UserResource::collection($users);
+        return UserResource::collection($models);
     }
 
     /**
@@ -33,9 +33,9 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $user = $this->repository->create($request->all());
+        $model = $this->repository->create($request->all());
 
-        return new UserResource($user);
+        return new UserResource($model);
     }
 
     /**
@@ -43,9 +43,9 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        $user = $this->repository->find($id);
+        $model = $this->repository->find($id);
 
-        return new UserResource($user);
+        return new UserResource($model);
     }
 
     /**
@@ -53,9 +53,9 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, string $id)
     {
-        $user = $this->repository->update($id, $request->all());
+        $model = $this->repository->update($id, $request->all());
 
-        return new UserResource($user);
+        return new UserResource($model);
     }
 
     /**

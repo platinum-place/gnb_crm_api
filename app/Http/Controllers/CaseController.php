@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreZohoCaseRequest;
 use App\Http\Resources\ZohoCaseCollectionResource;
 use App\Http\Resources\ZohoCaseResource;
 use App\Repositories\ZohoCaseRepository;
@@ -30,7 +31,7 @@ class CaseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreZohoCaseRequest $request)
     {
         $case = $this->repository->create($request->all());
 
