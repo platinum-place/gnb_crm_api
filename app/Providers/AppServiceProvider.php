@@ -2,11 +2,7 @@
 
 namespace App\Providers;
 
-use App\Helpers\ZohoHelper;
-use App\Services\NavixyHelper;
-use App\Services\SystrackHelper;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,17 +11,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind('zoho', function () {
-            return new ZohoHelper();
-        });
-
-        $this->app->bind('systrack', function () {
-            return new SystrackHelper();
-        });
-
-        $this->app->bind('navixy', function () {
-            return new NavixyHelper();
-        });
+        //
     }
 
     /**
@@ -33,8 +19,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if ($this->app->environment('production')) {
-            URL::forceScheme('https');
-        }
+        //
     }
 }

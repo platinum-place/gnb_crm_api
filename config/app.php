@@ -57,8 +57,6 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
-    'frontend_url' => env('FRONTEND_URL', 'http://localhost:3000'),
-
     'asset_url' => env('ASSET_URL'),
 
     /*
@@ -85,7 +83,7 @@ return [
     |
     */
 
-    'locale' => 'es',
+    'locale' => 'en',
 
     /*
     |--------------------------------------------------------------------------
@@ -98,7 +96,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'es',
+    'fallback_locale' => 'en',
 
     /*
     |--------------------------------------------------------------------------
@@ -184,9 +182,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        'Zoho' => App\Facades\Zoho::class,
-        'Navixy' => App\Facades\Navixy::class,
-        'Systrack' => App\Facades\Systrack::class,
+        // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
 ];
