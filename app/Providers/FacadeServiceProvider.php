@@ -15,10 +15,6 @@ class FacadeServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind('querybuilder', function () {
-            return new BuilderHelper();
-        });
-
         $this->app->bind('zoho', function () {
             return new ZohoHelper();
         });

@@ -35,7 +35,9 @@ class CaseController extends Controller
             'Case_Origin' => 'API',
         ]);
 
-        $record = Zoho::createRecords('Cases', $data);
+        $id = Zoho::createRecords('Cases', $data);
+
+        // return $this->show($id);
     }
 
     /**

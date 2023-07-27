@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class BuilderHelper
+class EloquentBuilderHelper
 {
     public function filterBuilder(Builder $builder, array $params = []): LengthAwarePaginator
     {
