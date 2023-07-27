@@ -170,6 +170,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        App\Providers\BuilderServiceProvider::class,
+        App\Providers\FacadeServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -184,7 +187,10 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // 'Example' => App\Facades\Example::class,
+        'QueryBuilder' => App\Facades\QueryBuilder::class,
+        'Zoho' => App\Facades\Zoho::class,
+        'Navixy' => App\Facades\Navixy::class,
+        'Systrack' => App\Facades\Systrack::class,
     ])->toArray(),
 
 ];
