@@ -26,20 +26,20 @@ class CaseService
             'Asegurado' => 'client_name',
         ];
 
-        $data = [];
+        $newRequest = [];
 
         foreach ($data as $newIndex => $oldIndex) {
             if (isset($request[$oldIndex])) {
-                $data[$newIndex] = $request[$oldIndex];
+                $newRequest[$newIndex] = $request[$oldIndex];
             }
         }
 
-        return $data;
+        return $newRequest;
     }
 
-    function includeParams(array $data)
+    function includeParams(array &$data)
     {
-        return array_merge($data, [
+        array_merge($data, [
             'Status' => 'Ubicado',
             'Caso_especial' => true,
             'Aseguradora' => auth()->user()->account_name,
@@ -49,7 +49,7 @@ class CaseService
         ]);
     }
 
-    function includeZohoParams(array $data)
+    function includeZohoParams(array &$data)
     {
         $data['Plan'] = [$data['Plan'], 'com\zoho\crm\api\util\Choice'];
         $data['Tipo_de_asistencia'] = [$data['Tipo_de_asistencia'], 'com\zoho\crm\api\util\Choice'];
@@ -57,6 +57,5 @@ class CaseService
         $data['Zona'] = [$data['Zona'], 'com\zoho\crm\api\util\Choice'];
         $data['Status'] = [$data['Status'], 'com\zoho\crm\api\util\Choice'];
         $data['Related_To'] = [$data['Related_To'], 'com\zoho\crm\api\record\Record'];
-        return $data;
     }
 }

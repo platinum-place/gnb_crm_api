@@ -35,8 +35,8 @@ class CaseController extends Controller
     public function store(StoreCaseRequest $request)
     {
         $data = $this->service->replaceRequest($request->all());
-        $data = $this->service->includeParams($data);
-        $data = $this->service->includeZohoParams($data);
+        $this->service->includeParams($data);
+        $this->service->includeZohoParams($data);
         $response = Zoho::createRecords('Cases', $data);
         return response()->json($response);
     }
