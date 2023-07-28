@@ -110,9 +110,10 @@ class ZohoHelper
 
         if ($response != null) {
             if (in_array($response->getStatusCode(), [204, 304])) {
-                echo $response->getStatusCode() == 204 ? "No Content\n" : "Not Modified\n";
-
-                return;
+                return response()->json([
+                    'Status' => $response->getStatusCode(),
+                    'Message' => $response->getStatusCode() == 204 ? "No Content\n" : "Not Modified\n",
+                ]);
             }
             if ($response->isExpected()) {
                 $responseHandler = $response->getObject();
@@ -128,16 +129,19 @@ class ZohoHelper
                     }
                 } elseif ($responseHandler instanceof APIException) {
                     $exception = $responseHandler;
-                    echo 'Status: ' . $exception->getStatus()->getValue() . "\n";
-                    echo 'Code: ' . $exception->getCode()->getValue() . "\n";
-                    echo 'Details: ';
+                    $details = array();
                     foreach ($exception->getDetails() as $key => $value) {
-                        echo $key . ' : ' . $value . "\n";
+                        $details[$key] = $value;
                     }
-                    echo 'Message: ' . $exception->getMessage()->getValue() . "\n";
+                    return response()->json([
+                        'Status' => $exception->getStatus()->getValue(),
+                        'Code' => $exception->getCode()->getValue(),
+                        'Details' => $details,
+                        'Message' => $exception->getMessage()->getValue(),
+                    ]);
                 }
             } else {
-                print_r($response);
+                return response()->json($response);
             }
         }
     }
@@ -148,9 +152,10 @@ class ZohoHelper
         $response = $recordOperations->getRecord($recordId, $moduleAPIName);
         if ($response != null) {
             if (in_array($response->getStatusCode(), [204, 304])) {
-                echo $response->getStatusCode() == 204 ? "No Content\n" : "Not Modified\n";
-
-                return;
+                return response()->json([
+                    'Status' => $response->getStatusCode(),
+                    'Message' => $response->getStatusCode() == 204 ? "No Content\n" : "Not Modified\n",
+                ]);
             }
             if ($response->isExpected()) {
                 $responseHandler = $response->getObject();
@@ -171,16 +176,19 @@ class ZohoHelper
                     fclose($fp);
                 } elseif ($responseHandler instanceof APIException) {
                     $exception = $responseHandler;
-                    echo 'Status: ' . $exception->getStatus()->getValue() . "\n";
-                    echo 'Code: ' . $exception->getCode()->getValue() . "\n";
-                    echo 'Details: ';
+                    $details = array();
                     foreach ($exception->getDetails() as $key => $value) {
-                        echo $key . ' : ' . $value . "\n";
+                        $details[$key] = $value;
                     }
-                    echo 'Message: ' . $exception->getMessage()->getValue() . "\n";
+                    return response()->json([
+                        'Status' => $exception->getStatus()->getValue(),
+                        'Code' => $exception->getCode()->getValue(),
+                        'Details' => $details,
+                        'Message' => $exception->getMessage()->getValue(),
+                    ]);
                 }
             } else {
-                print_r($response);
+                return response()->json($response);
             }
         }
     }
@@ -189,19 +197,30 @@ class ZohoHelper
     {
         $recordOperations = new RecordOperations();
         $bodyWrapper = new BodyWrapper();
-        $records = [];
+        $records = array();
         $recordClass = 'com\zoho\crm\api\record\Record';
         $record1 = new $recordClass();
 
         foreach ($fields as $key => $value) {
-            $record1->addKeyValue($key, $value);
+            if (is_array($value)) {
+                if ($recordClass == $value[1]) {
+                    $record = new $recordClass();
+                    $record->setId($value[0]);
+                    $record1->addKeyValue($key, $record);
+                } else {
+                    $record1->addKeyValue($key, new $value[1]($value[0]));
+                }
+            } else {
+                $record1->addKeyValue($key, $value);
+            }
         }
 
         array_push($records, $record1);
         $bodyWrapper->setData($records);
-        $bodyWrapper->setTrigger(['approval', 'workflow', 'blueprint']);
-
-        $response = $recordOperations->createRecords($moduleAPIName, $bodyWrapper);
+        $trigger = array("approval", "workflow", "blueprint");
+        $bodyWrapper->setTrigger($trigger);
+        $headerInstance = new HeaderMap();
+        $response = $recordOperations->createRecords($moduleAPIName, $bodyWrapper, $headerInstance);
         if ($response != null) {
             if ($response->isExpected()) {
                 $actionHandler = $response->getObject();
@@ -211,38 +230,46 @@ class ZohoHelper
                     foreach ($actionResponses as $actionResponse) {
                         if ($actionResponse instanceof SuccessResponse) {
                             $successResponse = $actionResponse;
-                            echo 'Status: ' . $successResponse->getStatus()->getValue() . "\n";
-                            echo 'Code: ' . $successResponse->getCode()->getValue() . "\n";
-                            echo 'Details: ';
+                            $details = array();
                             foreach ($successResponse->getDetails() as $key => $value) {
-                                echo $key . ' : ';
-                                print_r($value);
-                                echo "\n";
+                                $details[$key] = $value;
                             }
-                            echo 'Message: ' . $successResponse->getMessage()->getValue() . "\n";
-                        } elseif ($actionResponse instanceof APIException) {
+                            $values[] = [
+                                'Status' => $successResponse->getStatus()->getValue(),
+                                'Code' => $successResponse->getCode()->getValue(),
+                                'Details' => $details,
+                                'Message' => $successResponse->getMessage()->getValue(),
+                            ];
+                        } else if ($actionResponse instanceof APIException) {
                             $exception = $actionResponse;
-                            echo 'Status: ' . $exception->getStatus()->getValue() . "\n";
-                            echo 'Code: ' . $exception->getCode()->getValue() . "\n";
-                            echo 'Details: ';
+                            $details = array();
                             foreach ($exception->getDetails() as $key => $value) {
-                                echo $key . ' : ' . $value . "\n";
+                                $details[$key] = $value;
                             }
-                            echo 'Message: ' . $exception->getMessage()->getValue() . "\n";
+                            $values[] = [
+                                'Status' => $exception->getStatus()->getValue(),
+                                'Code' => $exception->getCode()->getValue(),
+                                'Details' => $details,
+                                'Message' => $exception->getMessage()->getValue(),
+                            ];
                         }
                     }
-                } elseif ($actionHandler instanceof APIException) {
+                    return $values;
+                } else if ($actionHandler instanceof APIException) {
                     $exception = $actionHandler;
-                    echo 'Status: ' . $exception->getStatus()->getValue() . "\n";
-                    echo 'Code: ' . $exception->getCode()->getValue() . "\n";
-                    echo 'Details: ';
+                    $details = array();
                     foreach ($exception->getDetails() as $key => $value) {
-                        echo $key . ' : ' . $value . "\n";
+                        $details[$key] = $value;
                     }
-                    echo 'Message: ' . $exception->getMessage()->getValue() . "\n";
+                    return response()->json([
+                        'Status' => $exception->getStatus()->getValue(),
+                        'Code' => $exception->getCode()->getValue(),
+                        'Details' => $details,
+                        'Message' => $exception->getMessage()->getValue(),
+                    ]);
                 }
             } else {
-                print_r($response);
+                return response()->json($response);
             }
         }
     }

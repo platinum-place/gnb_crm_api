@@ -7,10 +7,18 @@ use App\Facades\Systrack;
 use App\Facades\Zoho;
 use App\Http\Requests\StoreCaseRequest;
 use App\Http\Resources\CaseResource;
+use App\Services\CaseService;
 use Illuminate\Http\Request;
 
 class CaseController extends Controller
 {
+    protected CaseService $service;
+
+    function __construct(CaseService $service)
+    {
+        $this->service = $service;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -26,18 +34,11 @@ class CaseController extends Controller
      */
     public function store(StoreCaseRequest $request)
     {
-        $data = array_merge($request->all(), [
-            'Status' => 'Ubicado',
-            'Caso_especial' => true,
-            'Aseguradora' => auth()->user()->account_name,
-            'Related_To' => auth()->user()->contact_name_id,
-            'Subject' => 'Asistencia remota',
-            'Case_Origin' => 'API',
-        ]);
-
-        $id = Zoho::createRecords('Cases', $data);
-
-        // return $this->show($id);
+        $data = $this->service->replaceRequest($request->all());
+        $data = $this->service->includeParams($data);
+        $data = $this->service->includeZohoParams($data);
+        $response = Zoho::createRecords('Cases', $data);
+        return response()->json($response);
     }
 
     /**
