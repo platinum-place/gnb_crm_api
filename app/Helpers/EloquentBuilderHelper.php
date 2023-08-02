@@ -8,7 +8,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class EloquentBuilderHelper
 {
-    public function filterBuilder(Builder $builder, array $params = []): LengthAwarePaginator
+    public function filterBuilder(Builder $builder, array $params = []): Builder
     {
         $model = $builder->getModel();
 
@@ -29,6 +29,11 @@ class EloquentBuilderHelper
             }
         }
 
+        return $builder;
+    }
+
+    function paginateBuilder(Builder $builder, array $params = []): LengthAwarePaginator
+    {
         $builder->orderBy(
             isset($params['order_by']) ? $params['order_by'] : 'id',
             isset($params['sort_by']) ? $params['sort_by'] : 'DESC',
