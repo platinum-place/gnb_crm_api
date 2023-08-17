@@ -40,5 +40,4 @@ Installing the navixy API into your Laravel project is simple and efficient than
 4. Start the local development environment using Sail:
 
     ```bash
-        ./vendor/bin/sail up
-    ```
+    ./vendor/bin/sail up
