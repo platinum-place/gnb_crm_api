@@ -10,7 +10,7 @@ Welcome to the repository of the **Laravel REST API Project for Zoho CRM Extensi
 - **Security**: Security is paramount. We implement robust security measures to ensure data confidentiality and integrity while communicating between Zoho CRM, our API, and client applications.
 - **Comprehensive Documentation**: We provide thorough documentation guiding developers through the setup, usage, and customization of the Zoho CRM Extension API.
 
-# Installation
+## Installation
 
 Installing the navixy API into your Laravel project is simple and efficient thanks to Laravel Sail, a pre-configured local development environment. With these steps, you are ready to integrate navixy's tracking and monitoring functionality into your project.
 
