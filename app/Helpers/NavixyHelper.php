@@ -6,34 +6,25 @@ use Illuminate\Support\Facades\Http;
 
 class NavixyHelper
 {
-    public function list()
+    protected string $url = '';
+
+    public function __construct()
     {
-        Http::get(env('NAVIXY_URL').'list', ['hash' => env('hash')])->json();
+        $this->url = config('navixy.url');
     }
 
-    public function find(int $id)
+    public function list(): array
     {
-        $response = Http::get(env('NAVIXY_URL').'get_last_gps_point', [
-            'hash' => env('NAVIXY_HASH'),
-            'tracker_id' => $id,
-        ]);
-
-        $responseJson = $response->json();
-
-        if (empty($responseJson['lat'])) {
-            throw new \Exception(__('Error, location empty.'), 501);
-        }
-
-        return $responseJson;
+        return Http::get($this->url.'list', [
+            'hash' => config('navixy.hash'),
+        ])->json();
     }
 
-    public function getLocation(int $id)
+    public function find(int $tracker_id)
     {
-        $model = $this->find($id);
-
-        return [
-            'lat' => $model['lat'],
-            'lng' => $model['lng'],
-        ];
+        return Http::get($this->url.'get_last_gps_point', [
+            'hash' => config('navixy.hash'),
+            'tracker_id' => $tracker_id,
+        ])->json();
     }
 }

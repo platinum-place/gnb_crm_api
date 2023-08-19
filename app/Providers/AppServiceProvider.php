@@ -17,13 +17,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        Builder::macro('filterPaginate', function (array $params) {
-            /** @var Builder */
-            $builder = $this;
-
-            return (new EloquentBuilderHelper)->filterBuilder($builder, $params);
-        });
-
         $this->app->bind('zoho', function () {
             return new ZohoHelper();
         });

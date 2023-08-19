@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Facades\Navixy;
-use App\Facades\Systrack;
-use App\Facades\Zoho;
-use App\Http\Requests\StoreCaseRequest;
-use App\Http\Resources\CaseResource;
-use App\Services\CaseService;
 use Illuminate\Http\Request;
+use App\Services\CaseService;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\CaseResource;
+use App\Http\Requests\Cases\CaseRequest;
+use App\Http\Requests\Cases\StoreCaseRequest;
 
 class CaseController extends Controller
 {
     protected CaseService $service;
 
-    function __construct(CaseService $service)
+    public function __construct(CaseService $service)
     {
         $this->service = $service;
     }
@@ -22,11 +21,11 @@ class CaseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(CaseRequest $request)
     {
-        $records = Zoho::searchRecords('Cases', $request->all());
+        $models = $this->service->filter($request->all());
 
-        return CaseResource::collection($records);
+        return CaseResource::collection($models);
     }
 
     /**
@@ -34,11 +33,18 @@ class CaseController extends Controller
      */
     public function store(StoreCaseRequest $request)
     {
-        $data = $this->service->replaceRequest($request->all());
-        $this->service->includeParams($data);
-        $this->service->includeZohoParams($data);
-        $response = Zoho::createRecords('Cases', $data);
-        return response()->json($response);
+        $attr = array_merge($request->validated(), [
+            'Status' => 'Ubicado',
+            'Caso_especial' => true,
+            'Aseguradora' => auth()->user()->account_name,
+            'Related_To' => auth()->user()->contact_name_id,
+            'Subject' => 'Asistencia remota',
+            'Case_Origin' => 'API',
+        ]);
+
+        $model = $this->service->create($attr);
+
+        return new CaseResource($model);
     }
 
     /**
@@ -46,26 +52,13 @@ class CaseController extends Controller
      */
     public function show(string $id)
     {
-        $record = Zoho::getRecord('Cases', $id);
+        $model = $this->service->findById($id);
 
-        if (auth()->user()->account_name_id != $record->getKeyValue('Account_Name')->getKeyValue('id')) {
+        if (auth()->user()->account_name_id != $model?->Account_Name?->id) {
             throw new \Exception(__('Unauthorized action.'), 403);
         }
 
-        $location = [];
-
-        if ($id = $record->getKeyValue('Product_Name')?->getKeyValue('id')) {
-            $service = Zoho::getRecord('Products', $id);
-
-            if ($api = $service->getKeyValue('Plataforma_API')?->getValue()) {
-                $location = match ($api) {
-                    'Systrack' => Systrack::getLocation($service->getKeyValue('Clave_API')),
-                    'Navixy' => Navixy::getLocation($service->getKeyValue('Clave_API')),
-                };
-            }
-        }
-
-        return (new CaseResource($record))->additional(['location' => $location]);
+        return (new CaseResource($model))->additional(['location' => $this->service->getLocation($model)]);
     }
 
     /**

@@ -2,60 +2,35 @@
 
 namespace App\Services;
 
+use App\Models\shared\ApiModel;
+use App\Models\ZohoCase;
+use App\Services\shared\ZohoApi;
+use App\Services\shared\ApiService;
+use App\Services\shared\NavixyApi;
+use App\Services\shared\SystrackApi;
+
 class CaseService
 {
-    function replaceRequest(array $request)
+    use ZohoApi, SystrackApi, NavixyApi;
+
+    public string $module = 'Cases';
+
+    public function getLocation(ApiModel $case): array
     {
-        $data = [
-            'P_liza' => 'policy_number',
-            'Chasis' => 'chassis',
-            'A_o' => 'vehicle_year',
-            'Color' => 'vehicle_color',
-            'Marca' => 'vehicle_make',
-            'Modelo' => 'vehicle_model',
-            'Placa' => 'vehicle_plate',
-            'Punto_A' => 'site_a',
-            'Punto_B' => 'site_b',
-            'Solicitante' => 'client_name',
-            'Phone' => 'phone',
-            'Plan' => 'policy_plan',
-            'Description' => 'description',
-            'Ubicaci_n' => 'location_url',
-            'Tipo_de_asistencia' => 'service',
-            'Zona' => 'zone',
-            'Asegurado' => 'client_name',
-        ];
+        $location = [];
 
-        $newRequest = [];
+        if ($id = $case?->Product_Name?->id) {
+            $this->module = 'Products';
+            $service = $this->findById($id);
 
-        foreach ($data as $newIndex => $oldIndex) {
-            if (isset($request[$oldIndex])) {
-                $newRequest[$newIndex] = $request[$oldIndex];
+            if ($api = $service?->Plataforma_API) {
+                $location = match ($api) {
+                    'Systrack' => $this->findBySystrackId($service->Clave_API),
+                    'Navixy' => $this->findByNavixyId($service->Clave_API),
+                };
             }
         }
 
-        return $newRequest;
-    }
-
-    function includeParams(array &$data)
-    {
-        array_merge($data, [
-            'Status' => 'Ubicado',
-            'Caso_especial' => true,
-            'Aseguradora' => auth()->user()->account_name,
-            'Related_To' => auth()->user()->contact_name_id,
-            'Subject' => 'Asistencia remota',
-            'Case_Origin' => 'API',
-        ]);
-    }
-
-    function includeZohoParams(array &$data)
-    {
-        $data['Plan'] = [$data['Plan'], 'com\zoho\crm\api\util\Choice'];
-        $data['Tipo_de_asistencia'] = [$data['Tipo_de_asistencia'], 'com\zoho\crm\api\util\Choice'];
-        $data['Case_Origin'] = [$data['Case_Origin'], 'com\zoho\crm\api\util\Choice'];
-        $data['Zona'] = [$data['Zona'], 'com\zoho\crm\api\util\Choice'];
-        $data['Status'] = [$data['Status'], 'com\zoho\crm\api\util\Choice'];
-        $data['Related_To'] = [$data['Related_To'], 'com\zoho\crm\api\record\Record'];
+        return $location->trackPoint->position;
     }
 }

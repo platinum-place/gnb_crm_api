@@ -1,2 +1,0 @@
-id,user_mail,client_id,client_secret,refresh_token,access_token,grant_token,expiry_time,redirect_url
-php_tecnologia_us_prd_e7bf,tecnologia@gruponobe.com,1000.7FJQ4A2KDH9S2IJWDYL13HATQFMA2H,c3f1d0589803f294a7c5b27e3968ae1658927da9d7,1000.c96967ba181c367d896086bc6379592d.ac8fcf53cd16614731bd72443b13e7bf,1000.76f63e747070db6384f9199e1ebd977d.c66ebb15834bee52315626b2c27fcfa5,,1690426471965,https://it.gruponobe.com/

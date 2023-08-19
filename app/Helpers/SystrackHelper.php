@@ -6,35 +6,28 @@ use Illuminate\Support\Facades\Http;
 
 class SystrackHelper
 {
-    public function list(int $id = null): array
+    protected array $header = [];
+
+    protected string $url = '';
+
+    public function __construct()
     {
-        $response = Http::withHeaders([
+        $this->header = [
             'Accept' => 'application/json',
-            'App-id' => env('SYSTRACK_APP_ID'),
-            'User' => env('SYSTRACK_USER'),
-            'Pass' => env('SYSTRACK_PASS'),
-            'Authorization' => env('SYSTRACK_AUTHORIZATION'),
-        ])->get(env('SYSTRACK_URL').$id, [
-            'FromIndex' => 0,
-            'PageSize' => 1000,
-        ]);
+            'App-id' => config('systrack.app_id'),
+            'User' => config('systrack.user'),
+            'Pass' => config('systrack.pass'),
+            'Authorization' => config('systrack.token'),
+        ];
 
-        $responseJson = $response->json();
-
-        if (empty($responseJson['trackPoint'])) {
-            throw new \Exception(__('Error, location empty.'), 501);
-        }
-
-        return $responseJson;
+        $this->url = config('systrack')['url'];
     }
 
-    public function getLocation(int $id)
+    public function list(int $id = null): array
     {
-        $location = $this->list($id);
-
-        return [
-            'lat' => $location['trackPoint']['position']['latitude'],
-            'lng' => $location['trackPoint']['position']['longitude'],
-        ];
+        return Http::withHeaders($this->header)->get($this->url.$id, [
+            'FromIndex' => 0,
+            'PageSize' => 1000,
+        ])->json();
     }
 }

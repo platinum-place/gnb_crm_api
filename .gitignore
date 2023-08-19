@@ -17,7 +17,3 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-database/seeders/ColonialSeeder.php
-public/sdk_tokens.txt
-public/sdk_logs.log
-.gitignore

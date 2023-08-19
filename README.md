@@ -1,43 +1,66 @@
-# GNB CRM API
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-Welcome to the repository of the **Laravel REST API Project for Zoho CRM Extension**! This project aims to provide an efficient solution for connecting the Zoho CRM system to business processes, enabling a seamless extension of the CRM to clients. Through this repository, we offer a REST API developed using the popular Laravel framework, serving as an intermediary between Zoho CRM and client applications.
+<p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
-## Key Features:
+## About Laravel
 
-- **Zoho CRM Integration**: We effectively connect to the Zoho CRM API, granting access to crucial data, business processes, and CRM functionalities.
-- **Laravel REST API**: We harness the power of the robust and scalable Laravel framework to develop a resilient REST API that caters to evolving business and client needs.
-- **Extensibility**: Our solution is designed for companies to expand and customize Zoho CRM capabilities according to their unique requirements and offer these enhanced features to their clients.
-- **Security**: Security is paramount. We implement robust security measures to ensure data confidentiality and integrity while communicating between Zoho CRM, our API, and client applications.
-- **Comprehensive Documentation**: We provide thorough documentation guiding developers through the setup, usage, and customization of the Zoho CRM Extension API.
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-## Installation
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Installing the navixy API into your Laravel project is simple and efficient thanks to Laravel Sail, a pre-configured local development environment. With these steps, you are ready to integrate navixy's tracking and monitoring functionality into your project.
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Prerequisites:
+## Learning Laravel
 
-- Have Docker installed on your system.
-- Laravel 10 or higher.
-- PHP 8 or higher.
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-## Steps
+You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-1. Clone your Laravel repository or create a new one if you don't have it yet:
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-   ```bash
-   git clone https://github.com/platinum-place/gnb_crm_api.git
+## Laravel Sponsors
 
-2. Navigate to your project folder:
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
 
-   ```bash
-    cd gnb_crm_api
+### Premium Partners
 
-3. Install Composer packages:
+- **[Vehikl](https://vehikl.com/)**
+- **[Tighten Co.](https://tighten.co)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Cubet Techno Labs](https://cubettech.com)**
+- **[Cyber-Duck](https://cyber-duck.co.uk)**
+- **[Many](https://www.many.co.uk)**
+- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
+- **[DevSquad](https://devsquad.com)**
+- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
+- **[OP.GG](https://op.gg)**
+- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
+- **[Lendio](https://lendio.com)**
 
-   ```bash
-    composer install
+## Contributing
 
-4. Start the local development environment using Sail:
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-    ```bash
-    ./vendor/bin/sail up
+## Code of Conduct
+
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+
+## Security Vulnerabilities
+
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+
+## License
+
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
