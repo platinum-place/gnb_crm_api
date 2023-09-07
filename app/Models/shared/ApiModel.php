@@ -6,17 +6,18 @@ class ApiModel
 {
     protected array $attributes = [];
 
+    protected array $fillable = [];
+
     public function __construct(array $attributes = [])
     {
-        if (! empty($attributes)) {
-            $this->fill($attributes);
-        }
+        $this->fill($attributes);
     }
 
     public function fill(array $attributes)
     {
         foreach ($attributes as $key => $value) {
-            $this->attributes[$key] = $value;
+            if (empty($this->fillable) or $this->isFillable($key))
+                $this->attributes[$key] = $value;
         }
 
         return $this;
@@ -39,5 +40,10 @@ class ApiModel
     public function toArray()
     {
         return $this->attributes;
+    }
+
+    protected function isFillable($key)
+    {
+        return in_array($key, $this->fillable);
     }
 }

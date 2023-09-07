@@ -21,11 +21,23 @@ class StoreCaseRequest extends FormRequest
      */
     public function rules(): array
     {
-        return (new CaseRequest())->requiredRules();
-    }
-
-    public function prepareForValidation()
-    {
-        (new CaseRequest())->prepareForValidation();
+        return [
+            'vehicle_year' => ['numeric', 'required'],
+            'chassis' => ['string', 'required'],
+            'vehicle_color' => ['string', 'required'],
+            'vehicle_plate' => ['string', 'max:10', 'required'],
+            'vehicle_make' => ['string', 'required'],
+            'vehicle_model' => ['string', 'required'],
+            'site_a' => ['string', 'required'],
+            'site_b' => ['string', 'required'],
+            'policy_number' => ['string', 'required'],
+            'client_name' => ['string', 'required'],
+            'phone' => ['string', 'required'],
+            'policy_plan' => ['string', 'required'],
+            'description' => ['string', 'required'],
+            'location_url' => ['url', 'required'],
+            'service' => ['string', 'required'],
+            'zone' => ['string', 'required']
+        ];
     }
 }

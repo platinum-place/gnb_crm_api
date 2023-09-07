@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\CaseService;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CaseResource;
-use App\Http\Requests\Cases\CaseRequest;
 use App\Http\Requests\Cases\StoreCaseRequest;
+use App\Http\Resources\CaseResource;
 
 class CaseController extends Controller
 {
@@ -21,11 +20,11 @@ class CaseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(CaseRequest $request)
+    public function index(Request $request)
     {
-        $models = $this->service->filter($request->all());
+        $cases = $this->service->filter($request->all());
 
-        return CaseResource::collection($models);
+        return CaseResource::collection($cases);
     }
 
     /**
@@ -33,16 +32,7 @@ class CaseController extends Controller
      */
     public function store(StoreCaseRequest $request)
     {
-        $attr = array_merge($request->validated(), [
-            'Status' => 'Ubicado',
-            'Caso_especial' => true,
-            'Aseguradora' => auth()->user()->account_name,
-            'Related_To' => auth()->user()->contact_name_id,
-            'Subject' => 'Asistencia remota',
-            'Case_Origin' => 'API',
-        ]);
-
-        $model = $this->service->create($attr);
+        $model = $this->service->create($request->validated());
 
         return new CaseResource($model);
     }
