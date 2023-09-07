@@ -19,15 +19,12 @@ class SystrackHelper
             'Pass' => config('systrack.pass'),
             'Authorization' => config('systrack.token'),
         ])
+            ->throw()
             ->get(config('systrack.url') . $id, [
                 'FromIndex' => 0,
                 'PageSize' => 1000,
             ])
             ->json();
-
-        if (empty($response)) {
-            throw new Exception(__('The Systrack API return a unknown error.'));
-        }
 
         if ($id) {
             return new ApiModel($response);
