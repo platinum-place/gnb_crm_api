@@ -41,3 +41,34 @@ Installing the navixy API into your Laravel project is simple and efficient than
 
     ```bash
     ./vendor/bin/sail up
+
+### Config
+
+- Configure your environment variables in the .env file for connecting to the zohocrm API. Add the necessary API keys provided by zohocrm:
+
+```bash
+    ZOHO_USER=""
+    ZOHO_URL_TOKEN="https://accounts.zoho.com/oauth/v2/token"
+    ZOHO_URL_API="https://www.zohoapis.com/crm/v2/"
+    ZOHO_REDIRECT_URI=""
+    ZOHO_CLIENT_ID=""
+    ZOHO_CLIENT_SECRET=""
+    ZOHO_REFRESH_TOKEN=""
+```
+
+- Configure your environment variables in the .env file for connecting to the navixy API. Add the necessary API keys provided by navixy:
+
+```bash
+    NAVIXY_URL="https://api.us.navixy.com/v2/tracker/"
+    NAVIXY_HASH=""
+```
+
+- Configure your environment variables in the .env file for connecting to the Systrack API. Add the necessary API keys provided by Systrack:
+
+```bash
+    SYSTRACK_URL="http://xxx.xxx.xxx.xxx/comGpsGate/api/v.1/applications/xxx/xxx/"
+    SYSTRACK_APP_ID=""
+    SYSTRACK_USER=""
+    SYSTRACK_PASS=""
+    SYSTRACK_AUTHORIZATION=""
+```
