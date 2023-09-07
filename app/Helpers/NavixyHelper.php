@@ -13,11 +13,9 @@ class NavixyHelper
     {
         $response = Http::get(config('navixy.url') . 'list', [
             'hash' => config('navixy.hash'),
-        ])->json();
-
-        if (empty($response)) {
-            throw new Exception(__('The Navixy API return a unknown error.'));
-        }
+        ])
+        ->throw()
+        ->json();
 
         return collect($response['list'])->mapInto(ApiModel::class);
     }
@@ -27,11 +25,9 @@ class NavixyHelper
         $response = Http::get(config('navixy.url') . 'get_last_gps_point', [
             'hash' => config('navixy.hash'),
             'tracker_id' => $tracker_id,
-        ])->json();
-
-        if (empty($response)) {
-            throw new Exception(__('The Navixy API return a unknown error.'));
-        }
+        ])
+        ->throw()
+        ->json();
 
         return new ApiModel($response['value']);
     }
